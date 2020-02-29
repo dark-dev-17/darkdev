@@ -1,0 +1,85 @@
+﻿@model Site.Models.Cliente
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Cliente</h4>
+<hr />
+<div class="row" id="app_Create_ciente">
+    <div class="col-md-4">
+        <form asp-action="Create" v-on:submit.prevent="AddCliente">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" v-model="Cliente.Nombre" />
+                <span asp-validation-for="Nombre"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" v-model="Cliente.Telefono" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Correo" class="control-label"></label>
+                <input asp-for="Correo" v-model="Cliente.Correo" class="form-control" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input v-model="Cliente.IsActive" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    var app_Create_ciente = new Vue({
+        el: "#app_Create_ciente",
+        data: {
+            serverToken: {
+                'RequestVerificationToken': document.querySelector("input[name=__RequestVerificationToken]").value
+            },
+            Cliente: {
+                Nombre: "",
+                Nombre: "",
+                Telefono: "",
+                Correo: "",
+                IsActive: true
+            },
+            isSaving: false
+        },
+        mounted() {
+            
+        },
+        methods: {
+            AddCliente: async function (evt) {
+                this.isSaving = true
+                evt.preventDefault();
+                //var params = new URLSearchParams();
+                //params.append('DocEcommerce', '' + this.DocEcommerce);
+                await axios.post('@Url.Action("Create","Cliente")', this.Cliente, { headers: this.serverToken }).then(response => {
+                    window.location = '@Url.Action("Index","Cliente")';
+                }).catch(error => {
+                    alert(error.response.data);
+                }).finally(() => this.isSaving = false);
+            }
+        }
+
+    });
+</script>
+}

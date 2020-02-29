@@ -186,6 +186,11 @@ namespace Site.Models.Sistema
                     cmd.Parameters.AddWithValue("@" + variable, Int32.Parse(value));
                     cmd.Parameters["@" + variable].Direction = ParameterDirection.Input;
                 }
+                if (type == "DOUBLE")
+                {
+                    cmd.Parameters.AddWithValue("@" + variable, double.Parse(value));
+                    cmd.Parameters["@" + variable].Direction = ParameterDirection.Input;
+                }
 
             }
         }

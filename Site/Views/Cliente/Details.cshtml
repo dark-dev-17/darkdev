@@ -1,0 +1,164 @@
+﻿@model Site.Models.Cliente
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Correo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Correo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Productos</a></li>
+            <li><a data-toggle="tab" href="#menu1">Aportes</a></li>
+            <li><a data-toggle="tab" href="#menu2">Ajustes</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <h3>Productos</h3>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tipo Producto
+                            </th>
+                            <th>
+                                Clave
+                            </th>
+                            <th>
+                                Descripción
+                            </th>
+                            <th>
+                                Precio cotizacion
+                            </th>
+                            <th>
+                                Precio compra
+                            </th>
+                            <th>
+                                Precio venta
+                            </th>
+                            <th>
+                                Ganancia
+                            </th>
+                            <th>
+                                Actualizado
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Producto_)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (item.IdTipoProducto == 1)
+                                        {
+                                            <span>Oro</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Plata</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Codigo)
+                                    
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioCotizacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioCompra)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioVenta)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ganacia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Producto", new { id = item.Id },null) |
+                                    @Html.ActionLink("Details", "Details", "Producto", new { id = item.Id },null) |
+                                    @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <h3>Aportes</h3>
+                <hr />
+                
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <h3>Ajustes</h3>
+                
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -25,21 +25,14 @@ namespace Site.Models
         }
         #endregion
         #region Metodos
-        public bool Update()
+        public int Update()
         {
-            string Statement = string.Format("" +
-                "UPDATE t03_tipoarticulo SET " +
-                    "t03_f001 = '{0}'" +
-                "WHERE `t03_pk01` = '{1}'", Descripcion, Id);
-            bool isExists = false;
+            string Statement = string.Format("tipoArticulo_update|Id@INT={0}&Descripcion@VARCHAR={1}", Id,Descripcion);
+            int result;
             try
             {
-                int result = DBMysql_.DoNonQuery(Statement);
-                if(result > 0)
-                {
-                    isExists = true;
-                }
-                return isExists;
+                result = DBMysql_.ExecuteProcedureInt(Statement, "Result");
+                return result;
             }
             catch (DBException ex)
             {
@@ -56,6 +49,32 @@ namespace Site.Models
             finally
             {
                 
+            }
+        }
+        public int Add()
+        {
+            string Statement = string.Format("tipoArticulo_agregar|Descripcion@VARCHAR={0}", Descripcion);
+            int result;
+            try
+            {
+                result = DBMysql_.ExecuteProcedureInt(Statement, "Result");
+                return result;
+            }
+            catch (DBException ex)
+            {
+                throw ex;
+            }
+            catch (MySqlException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+
             }
         }
         public List<TipoArticulo> List()

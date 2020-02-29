@@ -1,0 +1,88 @@
+﻿@model Site.Models.Cliente
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Cliente</h4>
+<hr />
+<div class="row" id="app_Update_ciente">
+    <div class="col-md-4">
+        <form asp-action="Edit" v-on:submit.prevent="EditCliente">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control"  disabled />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" v-model="Cliente.Nombre" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" v-model="Cliente.Telefono" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Correo" class="control-label"></label>
+                <input asp-for="Correo" v-model="Cliente.Correo" class="form-control" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input v-model="Cliente.IsActive" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    var app_Update_ciente = new Vue({
+        el: "#app_Update_ciente",
+        data: {
+            serverToken: {
+                'RequestVerificationToken': document.querySelector("input[name=__RequestVerificationToken]").value
+            },
+            Cliente: {
+                Id: document.querySelector("input[name=Id]").value,
+                Nombre: document.querySelector("input[name=Nombre]").value,
+                Telefono: document.querySelector("input[name=Telefono]").value,
+                Correo: document.querySelector("input[name=Correo]").value,
+                IsActive: document.querySelector("input[name=IsActive]").value
+            },
+            isSaving: false
+        },
+        mounted() {
+
+        },
+        methods: {
+            EditCliente: async function (evt) {
+                this.isSaving = true
+                evt.preventDefault();
+                await axios.post('@Url.Action("Edit","Cliente")', this.Cliente, { headers: this.serverToken }).then(response => {
+                    window.location = '@Url.Action("Index","Cliente")';
+                }).catch(error => {
+                    alert(error.response.data);
+                }).finally(() => this.isSaving = false);
+            }
+        }
+
+    });
+</script>
+}
