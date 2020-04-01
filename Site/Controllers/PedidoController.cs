@@ -89,11 +89,11 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return Ok("Cliente agregado");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    throw new Exception("Error al insertar");
+                    return View();
                 }
             }
             catch (DBException ex)

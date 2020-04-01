@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "Create";
+    var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var TipoProductos = new Site.Models.TipoArticulo(DBMysql).List();
+    DBMysql.CloseConnection();
+
+    var Estatus = new List<EstatusPedido>();
+    Estatus.Add(new EstatusPedido { Id = 1, Descripcion = "Pendiente" });
+    Estatus.Add(new EstatusPedido { Id = 2, Descripcion = "Pagado" });
 }
 
 <h2>Create</h2>
@@ -12,6 +20,20 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StatusPedido" class="control-label"></label>
+                <select asp-for="StatusPedido" asp-items="@(new SelectList(Estatus,"Id","Descripcion"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="StatusPedido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoPedido" class="control-label"></label>
+                <select asp-for="TipoPedido" asp-items="@(new SelectList(TipoProductos,"Id","Descripcion"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="TipoPedido" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
                 <input asp-for="Fecha" class="form-control" />

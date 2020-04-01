@@ -1,0 +1,47 @@
+﻿@model DataAdminGold.Ecom_ProductoTipo
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron" style="background-color: #fff">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Detalle tipo de producto
+                    </div>
+                    <div class="card-body">
+                        <h4>Are you sure you want to delete this?</h4>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Id)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Descripcion)
+                            </dd>
+                        </dl>
+                        <div>
+                            
+                        </div>
+                        <form asp-action="Delete">
+                            <a class="btn btn-sm btn-secondary" asp-action="Index">Back to List</a>
+                            <input type="submit" value="Delete" class="btn btn-sm btn-primary" /> 
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

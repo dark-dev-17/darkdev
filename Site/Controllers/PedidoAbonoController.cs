@@ -67,21 +67,23 @@ namespace Site.Controllers
         }
 
         // GET: PedidoAbono/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            PedidoAbono PedidoAbono_ = new PedidoAbono();
+            PedidoAbono_.Id_pedido = id;
+            return View(PedidoAbono_);
         }
 
         // POST: PedidoAbono/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PedidoAbono PedidoAbono_)
+        public ActionResult Create(PedidoAbono PedidoAbono_, string GoTo)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(PedidoAbono_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -90,24 +92,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Pedido", new { id = PedidoAbono_.Id_pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(PedidoAbono_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
         }
 
@@ -140,13 +145,13 @@ namespace Site.Controllers
         // POST: PedidoAbono/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(PedidoAbono PedidoAbono_)
+        public ActionResult Edit(PedidoAbono PedidoAbono_, string GoTo)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(PedidoAbono_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -155,24 +160,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Pedido", new { id = PedidoAbono_.Id_pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(PedidoAbono_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAbono_);
             }
         }
     }

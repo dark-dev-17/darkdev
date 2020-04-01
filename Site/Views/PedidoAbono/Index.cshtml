@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Id_pedido)
+                @Html.ActionLink(item.Pedido_.Clave, "Details", "Pedido", new { id = item.Pedido_.Id }, new { title = "Ver pedido" })
             </td>
             <td>
                 $@Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inversionista_.Nombre)
+                @Html.ActionLink(item.Inversionista_.Nombre, "Details", "Inversionista", new { id = item.Inversionista_.Id }, new { title = "Ver inversionista" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Created)

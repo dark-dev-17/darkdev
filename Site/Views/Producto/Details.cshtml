@@ -20,7 +20,16 @@
             @Html.DisplayNameFor(model => model.IdTipoProducto)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdTipoProducto)
+            @{
+                if (Model.IdTipoProducto == 1)
+                {
+                    <span>Oro</span>
+                }
+                else
+                {
+                    <span>Plata</span>
+                }
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Pagina)
@@ -74,7 +83,7 @@
             @Html.DisplayNameFor(model => model.IdCliente)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdCliente)
+            @Html.ActionLink(Model.Cliente_.Nombre, "Details", "Cliente", new { id = Model.Cliente_.Id }, new { title = "Ver Cliente" })
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Cotizacion)
@@ -101,10 +110,10 @@
             @Html.DisplayFor(model => model.Paso)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.id_nota)
+            @Html.DisplayNameFor(model => model.IdNota)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.id_nota)
+            @Html.ActionLink(Model.NotaPedido_.Folio+"", "Details", "NotaPedido", new { id = Model.NotaPedido_.Id_Pedido }, new { title = "Ver Nota" })
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Created)

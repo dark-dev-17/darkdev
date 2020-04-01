@@ -81,7 +81,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(Producto_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -94,20 +94,23 @@ namespace Site.Controllers
                 }
                 else
                 {
-                    return View();
+                    return View(Producto_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
         }
 
@@ -146,7 +149,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(Producto_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -159,20 +162,23 @@ namespace Site.Controllers
                 }
                 else
                 {
-                    return View();
+                    return View(Producto_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(Producto_);
             }
         }
 

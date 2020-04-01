@@ -24,6 +24,8 @@ namespace Site.Models
         [Required]
         [Display(Name = "Pedido")]
         public int Id_Pedido { get; set; }
+        public Pedido Pedido_ { get; private set; }
+        public List<Producto> Producto_ { get; private set; }
         private DBMysql DBMysql_;
         #endregion
 
@@ -41,7 +43,8 @@ namespace Site.Models
         #region Metodos
         public int Create()
         {
-            string Statement = string.Format("PedidoNota_add|Folio@VARCHAR={0}&Total@DOUBLE={1}&Id_Pedido@INT={2}",
+            string Statement = string.Format("PedidoNota_add_upda|Id@INT={0}&Folio@VARCHAR={1}&Total@DOUBLE={2}&Id_Pedido@INT={3}",
+                    0,
                  Folio,
                  Total,
                  Id_Pedido
@@ -49,7 +52,11 @@ namespace Site.Models
             int result;
             try
             {
-                result = DBMysql_.ExecuteProcedureInt(Statement, "Result");
+                result = DBMysql_.ExecuteStoreProcedure(Statement);
+                if(result != 0)
+                {
+                    throw new DBException(DBMysql_.MessageResponse);
+                }
                 return result;
             }
             catch (DBException ex)
@@ -71,7 +78,7 @@ namespace Site.Models
         }
         public int Update()
         {
-            string Statement = string.Format("PedidoNota_update|Id@INT={0}&Folio@VARCHAR={1}&Total@DOUBLE={2}&Id_Pedido@INT={3}",
+            string Statement = string.Format("PedidoNota_add_upda|Id@INT={0}&Folio@VARCHAR={1}&Total@DOUBLE={2}&Id_Pedido@INT={3}",
                     Id,
                  Folio,
                  Total,
@@ -80,7 +87,11 @@ namespace Site.Models
             int result;
             try
             {
-                result = DBMysql_.ExecuteProcedureInt(Statement, "Result");
+                result = DBMysql_.ExecuteStoreProcedure(Statement);
+                if (result != 0)
+                {
+                    throw new DBException(DBMysql_.MessageResponse);
+                }
                 return result;
             }
             catch (DBException ex)
@@ -143,6 +154,10 @@ namespace Site.Models
                         Total = data.IsDBNull(2) ? 0 : data.GetDouble(2);
                         Id_Pedido = data.IsDBNull(3) ? 0 : data.GetInt32(3);
                     }
+                    data.Close();
+                    Producto_ = new Producto(DBMysql_).ListByNota(Id);
+                    Pedido_ = new Pedido(DBMysql_);
+                    Pedido_.GetById(Id);
                     result = true;
                 }
                 return result;
@@ -188,6 +203,11 @@ namespace Site.Models
                         NotaPedido_.Id_Pedido = data.IsDBNull(3) ? 0 : data.GetInt32(3);
                         List.Add(NotaPedido_);
                     }
+                    data.Close();
+                    List.ForEach(item => {
+                        item.Pedido_ = new Pedido(DBMysql_);
+                        item.Pedido_.GetById(item.Id_Pedido);
+                    });
                 }
                 return List;
             }

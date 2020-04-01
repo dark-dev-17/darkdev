@@ -1,0 +1,75 @@
+﻿@model Site.Models.CuentaAbono
+
+@{
+    ViewData["Title"] = "Create";
+    var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var Clientes = new Site.Models.Cliente(DBMysql).List();
+    DBMysql.CloseConnection();
+
+    var Movimeintos = new List<TipoMovimiento>();
+    Movimeintos.Add(new TipoMovimiento { Id = "E", Descripcion = "Egreso" });
+    Movimeintos.Add(new TipoMovimiento { Id = "I", Descripcion = "Ingreso" });
+}
+
+<h2>Create</h2>
+
+<h4>CuentaAbono</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Id_cliente" class="control-label"></label>
+                <select asp-for="Id_cliente" asp-items="@(new SelectList(Clientes,"Id","Nombre"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="Id_cliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" />
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Concepto" class="control-label"></label>
+                <input asp-for="Concepto" class="form-control" />
+                <span asp-validation-for="Concepto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoMovimiento" class="control-label"></label>
+                <select asp-for="TipoMovimiento" asp-items="@(new SelectList(Movimeintos,"Id","Descripcion"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="TipoMovimiento" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Created" class="control-label"></label>
+                <input asp-for="Created" class="form-control" />
+                <span asp-validation-for="Created" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Updated" class="control-label"></label>
+                <input asp-for="Updated" class="form-control" />
+                <span asp-validation-for="Updated" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

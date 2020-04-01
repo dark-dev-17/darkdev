@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Create";
+    var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var Inversionistas = new Site.Models.Inversionista(DBMysql).List();
+    var Pedidos = new Site.Models.Pedido(DBMysql).List();
+    DBMysql.CloseConnection();
 }
 
 <h2>Create</h2>
@@ -14,7 +19,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id_pedido" class="control-label"></label>
-                <input asp-for="Id_pedido" class="form-control" />
+                @if (Model.Id_pedido != 0)
+                {
+                    <select asp-for="Id_pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave",Model.Id_pedido))" disabled class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="Id_pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave"))" class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+
                 <span asp-validation-for="Id_pedido" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,7 +41,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Id_invercionista" class="control-label"></label>
-                <input asp-for="Id_invercionista" class="form-control" />
+            
+                <select asp-for="Id_invercionista" asp-items="@(new SelectList(Inversionistas,"Id","Nombre"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
                 <span asp-validation-for="Id_invercionista" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +55,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to order", "Details", "Pedido", new { id = Model.Id_pedido })
 </div>
 
 @section Scripts {

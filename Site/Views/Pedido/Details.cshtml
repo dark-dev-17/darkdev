@@ -8,26 +8,43 @@
 <div>
     <h4>Pedido</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-    </dl>
+    <table class="table table-sm">
+        <tr>
+            <td class="bg-info"><strong>@Html.DisplayNameFor(model => model.Id)</strong></td>
+            <td>@Html.DisplayFor(model => model.Id)</td>
+            <td><strong>@Html.DisplayNameFor(model => model.StatusPedido)</strong></td>
+            <td>
+                @{
+                    if (Model.StatusPedido == 1)
+                    {
+                        <span>Pendiente</span>
+                    }
+                    else
+                    {
+                        <span>Pagado</span>
+                    }
+                }
+            </td>
+            <td><strong>@Html.DisplayNameFor(model => model.Fecha)</strong></td>
+            <td>@Html.DisplayFor(model => model.Fecha)</td>
+        </tr>
+        <tr>
+            <td class=""><strong>@Html.DisplayNameFor(model => model.Total)</strong></td>
+            <td>@Html.DisplayFor(model => model.Total)</td>
+            <td class=""><strong>@Html.DisplayNameFor(model => model.TotalAjustesE)</strong></td>
+            <td>@Html.DisplayFor(model => model.TotalAjustesE)</td>
+            <td class=""><strong>@Html.DisplayNameFor(model => model.TotalAjustesI)</strong></td>
+            <td>@Html.DisplayFor(model => model.TotalAjustesI)</td>
+        </tr>
+        <tr>
+            <td class=""><strong>@Html.DisplayNameFor(model => model.TotalAportes)</strong></td>
+            <td>@Html.DisplayFor(model => model.TotalAportes)</td>
+            <td class=""><strong>@Html.DisplayNameFor(model => model.TotalReal)</strong></td>
+            <td>@Html.DisplayFor(model => model.TotalReal)</td>
+            <td class=""></strong></td>
+            <td></td>
+        </tr>
+    </table>
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
@@ -40,18 +57,15 @@
             <li class="active"><a data-toggle="tab" href="#home">Notas</a></li>
             <li><a data-toggle="tab" href="#menu1">Aportes</a></li>
             <li><a data-toggle="tab" href="#menu2">Ajustes</a></li>
+            <li><a data-toggle="tab" href="#menu3">Productos</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
-                <h3>Notas</h3>
-                <hr />
+                @Html.ActionLink("Create", "Create", "NotaPedido", new { id = Model.Id }, null)
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>
-                                Id
-                            </th>
                             <th>
                                 Folio
                             </th>
@@ -65,9 +79,6 @@
                         @foreach (var item in Model.Notas)
                         {
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Folio)
                                 </td>
@@ -85,12 +96,10 @@
                 </table>
             </div>
             <div id="menu1" class="tab-pane fade">
-                <h3>Aportes</h3>
-                <hr />
+                @Html.ActionLink("Create", "Create", "PedidoAbono", new { id = Model.Id }, null)
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Total </th>
                             <th>Invercionista</th>
                             <th>Registrado</th>
@@ -102,7 +111,6 @@
                         @foreach (var item in Model.PedidoAbono_)
                         {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
                                 <td>$@Html.DisplayFor(modelItem => item.Total)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Inversionista_.Nombre)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Created)</td>
@@ -117,13 +125,14 @@
                 </table>
             </div>
             <div id="menu2" class="tab-pane fade">
-                <h3>Ajustes</h3>
+                @Html.ActionLink("Create", "Create", "PedidoAjuste", new { id = Model.Id }, null)
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Total </th>
                             <th>Concepto</th>
+                            <th>Tipo</th>
                             <th>Registrado</th>
                             <th>Actualizado</th>
                             <th></th>
@@ -143,6 +152,18 @@
                                     @Html.DisplayFor(modelItem => item.Concepto)
                                 </td>
                                 <td>
+                                    @{
+                                        if (item.TipoMovimiento == "E")
+                                        {
+                                            <span>Egreso</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Ingreso</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.Created)
                                 </td>
                                 <td>
@@ -151,6 +172,85 @@
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", "PedidoAjuste", new { id = item.Id }, null) |
                                     @Html.ActionLink("Details", "Details", "PedidoAjuste", new { id = item.Id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="menu3" class="tab-pane fade">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tipo Producto
+                            </th>
+                            <th>
+                                Clave
+                            </th>
+                            <th>
+                                Descripción
+                            </th>
+                            <th>
+                                Precio cotizacion
+                            </th>
+                            <th>
+                                Precio compra
+                            </th>
+                            <th>
+                                Precio venta
+                            </th>
+                            <th>
+                                Ganancia
+                            </th>
+                            <th>
+                                Actualizado
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Producto_)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (item.IdTipoProducto == 1)
+                                        {
+                                            <span>Oro</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Plata</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Codigo)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioCotizacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioCompra)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioVenta)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ganacia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Producto", new { id = item.Id }, null) |
+                                    @Html.ActionLink("Details", "Details", "Producto", new { id = item.Id }, null) |
+                                    @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
                                 </td>
                             </tr>
                         }

@@ -25,6 +25,9 @@
                 @Html.DisplayNameFor(model => model.Concepto)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TipoMovimiento)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Created)
             </th>
             <th>
@@ -40,13 +43,25 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Id_pedido)
+                @Html.ActionLink(item.Pedido_.Clave, "Details", "Pedido", new { id = item.Pedido_.Id }, new { title = "Ver pedido" })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Total)
+                $@Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                $@Html.DisplayFor(modelItem => item.Concepto)
+                @Html.DisplayFor(modelItem => item.Concepto)
+            </td>
+            <td>
+                @{ 
+                    if(item.TipoMovimiento == "E")
+                    {
+                        <span>Egreso</span>
+                    }
+                    else
+                    {
+                        <span>Ingreso</span>
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Created)
@@ -55,8 +70,8 @@
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) 
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
             </td>
         </tr>
 }

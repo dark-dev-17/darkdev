@@ -1,0 +1,62 @@
+﻿@model DataAdminGold.Ecom_Pedido
+
+@{
+    ViewData["Title"] = "Details";
+    DataAdminGold.EcomData EcomData_ = new DataAdminGold.EcomData(@System.Configuration.ConfigurationManager.AppSettings["DataBase"]);
+    EcomData_.Connect();
+    DataAdminGold.Ecom_PedidoNota Ecom_Proveedor_ = (DataAdminGold.Ecom_PedidoNota)EcomData_.GetObject(DataAdminGold.DataModel.PedidoNota);
+    List<DataAdminGold.Ecom_PedidoNota> Notas = Ecom_Proveedor_.GetByPedido(Model.Id);
+    EcomData_.Disconnect();
+}
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-12"><h3>MI pedido</h3></div>
+        <div class="col-12 mt-3">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Id)</td>
+                    <td>@Html.DisplayFor(model => model.Id)</td>
+                    <td>@Html.DisplayNameFor(model => model.Total)</td>
+                    <td>@Html.DisplayFor(model => model.Total)</td>
+                    <td>@Html.DisplayNameFor(model => model.FechaCompra)</td>
+                    <td>@Html.DisplayFor(model => model.FechaCompra)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Estatus)</td>
+                    <td>@Html.DisplayFor(model => model.Estatus)</td>
+                    <td>@Html.DisplayNameFor(model => model.Proveedor)</td>
+                    <td>@Html.DisplayFor(model => model.Proveedor)</td>
+
+                </tr>
+            </table>
+            <div class="text-right">
+                <a asp-action="Index" class="btn btn-sm btn-secondary">Back to List</a>
+            </div>
+        </div>
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Notas" role="tab" aria-controls="home" aria-selected="true">Notas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="Notas" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-12">
+                            <partial name="../PedidoNota/Index" model="Notas" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            </div>
+        </div>
+    </div>
+</div>

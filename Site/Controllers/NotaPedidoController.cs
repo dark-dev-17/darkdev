@@ -12,6 +12,7 @@ namespace Site.Controllers
 {
     public class NotaPedidoController : Controller
     {
+        private NotaPedido NotaPedido__;
         // GET: NotaPedido
         public ActionResult Index(int id)
         {
@@ -67,11 +68,12 @@ namespace Site.Controllers
         }
 
         // GET: NotaPedido/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            NotaPedido__ = new NotaPedido();
+            NotaPedido__.Id_Pedido = id;
+            return View(NotaPedido__);
         }
-
         // POST: NotaPedido/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,7 +83,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(NotaPedido_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -90,24 +92,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details","Pedido",new { id = NotaPedido_.Id_Pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(NotaPedido_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
         }
 
@@ -146,7 +151,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(NotaPedido_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -155,24 +160,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Pedido", new { id = NotaPedido_.Id_Pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(NotaPedido_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(NotaPedido_);
             }
         }
 

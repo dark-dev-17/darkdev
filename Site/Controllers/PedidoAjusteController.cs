@@ -67,9 +67,11 @@ namespace Site.Controllers
         }
 
         // GET: PedidoAbono/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            PedidoAjuste PedidoAjuste_ = new PedidoAjuste();
+            PedidoAjuste_.Id_pedido = id;
+            return View(PedidoAjuste_);
         }
 
         // POST: PedidoAbono/Create
@@ -81,7 +83,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(PedidoAjuste_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -90,24 +92,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Pedido", new { id = PedidoAjuste_.Id_pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(PedidoAjuste_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
         }
 
@@ -146,7 +151,7 @@ namespace Site.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    throw new Exception("Campos vacios");
+                    return View(PedidoAjuste_);
                 }
                 DBMysql dBMysql1 = new DBMysql();
                 dBMysql1.OpenConnection();
@@ -155,24 +160,27 @@ namespace Site.Controllers
                 dBMysql1.CloseConnection();
                 if (Result == 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Pedido", new { id = PedidoAjuste_.Id_pedido });
                 }
                 else
                 {
-                    return View();
+                    return View(PedidoAjuste_);
                 }
             }
             catch (DBException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
             catch (MySqlException ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, string.Format("System Error: {0}", ex.Message));
+                return View(PedidoAjuste_);
             }
         }
     }

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin_gold", "Admin_gold.csproj", "{1FF3B8F7-744F-467B-9769-F27C4B21CD04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAdminGold", "..\DataAdminGold\DataAdminGold.csproj", "{9ED4C357-FED9-46CD-9BC4-9F2DA8E0F345}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FF3B8F7-744F-467B-9769-F27C4B21CD04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF3B8F7-744F-467B-9769-F27C4B21CD04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF3B8F7-744F-467B-9769-F27C4B21CD04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF3B8F7-744F-467B-9769-F27C4B21CD04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED4C357-FED9-46CD-9BC4-9F2DA8E0F345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED4C357-FED9-46CD-9BC4-9F2DA8E0F345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED4C357-FED9-46CD-9BC4-9F2DA8E0F345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED4C357-FED9-46CD-9BC4-9F2DA8E0F345}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A51530A1-4E7A-4528-83DF-BF430D0894A5}
+	EndGlobalSection
+EndGlobal

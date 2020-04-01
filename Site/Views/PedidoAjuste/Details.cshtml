@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Id_pedido)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Id_pedido)
+            @Html.ActionLink(Model.Pedido_.Clave, "Details", "Pedido", new { id = Model.Pedido_.Id }, new { title = "Ver pedido" })
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Total)
@@ -50,5 +50,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to order", "Details", "Pedido", new { id = Model.Id_pedido })
 </div>

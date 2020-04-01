@@ -2,6 +2,13 @@
 
 @{
     ViewData["Title"] = "Edit";
+     var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var TipoProductos = new Site.Models.TipoArticulo(DBMysql).List();
+    DBMysql.CloseConnection();
+    var Estatus = new List<EstatusPedido>();
+    Estatus.Add(new EstatusPedido { Id = 1, Descripcion = "Pendiente" });
+    Estatus.Add(new EstatusPedido { Id = 2, Descripcion = "Pagado" });
 }
 
 <h2>Edit</h2>
@@ -13,10 +20,24 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="StatusPedido" class="control-label"></label>
+                <select asp-for="StatusPedido" asp-items="@(new SelectList(Estatus,"Id","Descripcion",Model.StatusPedido))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="StatusPedido" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="TipoPedido" class="control-label"></label>
+                <select asp-for="TipoPedido" asp-items="@(new SelectList(TipoProductos,"Id","Descripcion",Model.TipoPedido))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="TipoPedido" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
                 <input asp-for="Fecha" class="form-control" />

@@ -1,0 +1,38 @@
+﻿@model DataAdminGold.Ecom_ProductoTipo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron" style="background-color: #fff">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Agregar nuevo tipo de producto
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Descripcion" class="control-label"></label>
+                                <input asp-for="Descripcion" class="form-control" />
+                                <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                <input asp-for="Id" type="hidden" value="1" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-sm btn-secondary" asp-action="Index">Back to List</a>
+                                <input type="submit" value="Create" class="btn btn-sm btn-primary" />
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <div class="card-footer text-muted">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

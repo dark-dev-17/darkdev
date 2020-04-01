@@ -15,6 +15,7 @@ namespace Site.Models.Sistema
         public string Username { get; private set; }
         public string Password { get; private set; }
         public string Port { get; private set; }
+        public string MessageResponse { get; private set; }
         private string ConnectionString { get; set; }
         public MySqlConnection Connection { get; private set; }
         #endregion
@@ -254,6 +255,46 @@ namespace Site.Models.Sistema
 
             }
         }
+        public int ExecuteStoreProcedure(string Parameters)
+        {
+            MySqlCommand cmd;
+            try
+            {
+                CheckConnection();
+                cmd = new MySqlCommand();
+                cmd.Connection = Connection;
+                processParameters(Parameters, cmd);
+
+                cmd.Parameters.AddWithValue("@CodeResponse", Int32.Parse("1"));
+                cmd.Parameters["@CodeResponse"].Direction = ParameterDirection.Output;
+
+                cmd.Parameters.AddWithValue("@MessageResponse", "1");
+                cmd.Parameters["@MessageResponse"].Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+
+                int RequestStatus = (int)cmd.Parameters["@CodeResponse"].Value;
+                MessageResponse = string.Format("Error[{0}], {1}", RequestStatus, (string)cmd.Parameters["@MessageResponse"].Value);
+
+                return RequestStatus;
+            }
+            catch (DBException ex)
+            {
+                throw ex;
+            }
+            catch (MySqlException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+
+            }
+        }
         public double ExecuteProcedureDouble(string Parameters, string output)
         {
             try
@@ -351,6 +392,37 @@ namespace Site.Models.Sistema
                 {
                     return -1;
                 }
+            }
+            catch (DBException ex)
+            {
+                throw ex;
+            }
+            catch (MySqlException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public double GetScalarDouble(string stattement)
+        {
+            try
+            {
+                CheckConnection();
+                MySqlCommand cmd = new MySqlCommand(stattement, Connection);
+                //Create a data reader and Execute the command
+                object result =(object) cmd.ExecuteScalar();
+                if(result is System.DBNull)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return (double)result;
+                }
+
             }
             catch (DBException ex)
             {

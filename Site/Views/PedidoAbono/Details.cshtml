@@ -20,19 +20,19 @@
             @Html.DisplayNameFor(model => model.Id_pedido)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Id_pedido)
+            @Html.ActionLink(Model.Pedido_.Clave, "Details", "Pedido", new { id = Model.Pedido_.Id }, new { title = "Ver pedido" })
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Total)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Total)
+            $@Html.DisplayFor(model => model.Total)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Id_invercionista)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Inversionista_.Nombre)
+            @Html.ActionLink(Model.Inversionista_.Nombre, "Details", "Inversionista", new { id = Model.Inversionista_.Id }, new { title = "Ver inversionista" })
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Created)
@@ -50,5 +50,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to order", "Details", "Pedido", new { id = Model.Id_pedido })
 </div>

@@ -1,0 +1,46 @@
+﻿@model DataAdminGold.Ecom_PedidoNota
+@{
+    ViewData["Title"] = "Create";
+    DataAdminGold.EcomData EcomData_ = new DataAdminGold.EcomData(@System.Configuration.ConfigurationManager.AppSettings["DataBase"]);
+    EcomData_.Connect();
+    DataAdminGold.Ecom_Pedido Ecom_Proveedor_ = (DataAdminGold.Ecom_Pedido)EcomData_.GetObject(DataAdminGold.DataModel.Pedido);
+    List<DataAdminGold.Ecom_Pedido> Pedido = Ecom_Proveedor_.Get();
+    EcomData_.Disconnect();
+}
+
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron" style="background-color: #fff">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Nueva nota
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <input asp-for="Id" type="hidden" value="1" class="form-control" />
+                                <label asp-for="Folio" class="control-label"></label>
+                                <input asp-for="Folio" class="form-control" />
+                                <span asp-validation-for="Folio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Pedido" class="control-label"></label>
+                                <input asp-for="Pedido" class="form-control" />
+                                <span asp-validation-for="Pedido" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-sm btn-secondary">Back to List</a>
+                                <input type="submit" value="Create" class="btn btn-sm btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

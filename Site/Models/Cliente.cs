@@ -32,6 +32,12 @@ namespace Site.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Actualizado")]
         public DateTime Updated { get; private set; }
+        [Display(Name = "Total deuda")]
+        public double TotalCuenta { get; private set; }
+        [Display(Name = "Total pagado")]
+        public double TotalPagado { get; private set; }
+        [Display(Name = "Total pagado")]
+        public double TotalSaldoFavor { get { return TotalPagado - TotalCuenta; } }
         public List<Producto> Producto_ { get; private set; }
         private DBMysql DBMysql_;
         #endregion
@@ -148,9 +154,10 @@ namespace Site.Models
             try
             {
                 data = DBMysql_.DoQuery(Statement);
+                List = new List<Cliente>();
                 if (data.HasRows)
                 {
-                    List = new List<Cliente>();
+                    
                     while (data.Read())
                     {
                         Cliente Cliente_ = new Cliente();
@@ -208,6 +215,8 @@ namespace Site.Models
                     }
                     data.Close();
                     Producto_ = new Producto(DBMysql_).ListByCliente(Id);
+                    TotalCuenta = new Producto(DBMysql_).GetTotalByCliente(Id);
+                    TotalPagado = (new CuentaAbono(DBMysql_).GetTotalByCliente("I",Id) - new CuentaAbono(DBMysql_).GetTotalByCliente("E", Id)) ;
                     isExists = true;
                 }
                 return isExists;

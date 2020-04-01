@@ -2,11 +2,18 @@
 
 @{
     ViewData["Title"] = "Create";
+    var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var Pedidos = new Site.Models.Pedido(DBMysql).List();
+    DBMysql.CloseConnection();
+
+    
+
 }
 
-<h2>Create</h2>
 
-<h4>NotaPedido</h4>
+<h4>Reistrar nueva nota a pedido</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +31,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="Id_Pedido" class="control-label"></label>
-                <input asp-for="Id_Pedido" class="form-control" />
+                @if (Model.Id_Pedido != 0 )
+                {
+                    <select asp-for="Id_Pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave",Model.Id_Pedido))" disabled class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="Id_Pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave"))" class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+                <input type="hidden" value="" name="Goto" class="form-control" />
                 <span asp-validation-for="Id_Pedido" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +54,16 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+
+    @if (Model.Id_Pedido != 0)
+    {
+        @Html.ActionLink("Go to Order", "Details", "Pedido", new { id = Model.Id_Pedido }, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to order", "Details", "Pedido", new { id = Model.Id_Pedido })
+    }
+
 </div>
 
 @section Scripts {

@@ -17,6 +17,10 @@
     </environment>
 </head>
 <body>
+    @{
+        var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+        var controllerAction = this.ViewContext.RouteData.Values["action"].ToString();
+    }
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -28,32 +32,33 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Site</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Cliente" asp-action="Index">Cliente</a></li>
-                    <li><a asp-area="" asp-controller="Pedido" asp-action="Index">Pedido</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
+            @*<div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Cliente" asp-action="Index">Cliente</a></li>
+                        <li><a asp-area="" asp-controller="Pedido" asp-action="Index">Pedido</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>*@
         </div>
     </nav>
-
     <partial name="_CookieConsentPartial" />
-
     <div class="container-fluid body-content">
         <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8">
-                @RenderBody()
-                <hr />
-                <footer>
-                    <p>&copy; 2020 - Site</p>
-                </footer>
+            <div class="col-sm-2">
+                <div class="list-group">
+                    <a href="@Url.Action("Index","Pedido")" class="list-group-item @Html.Raw((controllerName == "Pedido") ? "active" : "")"><i class="fa fa-key"></i> <span>Pedido</span></a>
+                    @*<a href="@Url.Action("Index","NotaPedido")" class="list-group-item @Html.Raw((controllerName == "NotaPedido") ? "active" : "")"><i class="fa fa-credit-card"></i> <span>Notas</span></a>*@
+                    @*<a href="@Url.Action("Index","PedidoAbono")" class="list-group-item @Html.Raw((controllerName == "PedidoAbono") ? "active" : "")"><i class="fa fa-question-circle"></i> <span>Pedido Aportes</span></a>*@
+                    @*<a href="@Url.Action("Index","PedidoAjuste")" class="list-group-item @Html.Raw((controllerName == "PedidoAjuste") ? "active" : "")"><i class="fa fa-arrow-circle-o-left"></i> <span>Pedido ajustes</span></a>*@
+                    <a href="@Url.Action("Index","Cliente")" class="list-group-item @Html.Raw((controllerName == "Cliente") ? "active" : "")"><i class="fa fa-book"></i> <span>Clientes</span></a>
+                    @*<a href="@Url.Action("Index","CuentaAbono")" class="list-group-item @Html.Raw((controllerName == "CuentaAbono") ? "active" : "")"><i class="fa fa-compass"></i> <span>Pagos a cuenta</span></a>*@
+                    <a href="@Url.Action("Index","Producto")" class="list-group-item @Html.Raw((controllerName == "Producto") ? "active" : "")"><i class="fa fa-compass"></i> <span>Productos</span></a>
+                </div>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-10">
+                @RenderBody()
+            </div>
         </div>
-        
-        
     </div>
 
     <environment include="Development">
@@ -82,7 +87,6 @@
         <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

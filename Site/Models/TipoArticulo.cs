@@ -23,6 +23,13 @@ namespace Site.Models
         {
 
         }
+        public TipoArticulo(int option)
+        {
+            if(option == 1)
+            {
+
+            }
+        }
         #endregion
         #region Metodos
         public int Update()

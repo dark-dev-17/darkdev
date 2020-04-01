@@ -2,10 +2,17 @@
 
 @{
     ViewData["Title"] = "Create";
+     var DBMysql = new Site.Models.Sistema.DBMysql();
+    DBMysql.OpenConnection();
+    var Pedidos = new Site.Models.Pedido(DBMysql).List();
+    DBMysql.CloseConnection();
+
+    var Movimeintos = new List<TipoMovimiento>();
+    Movimeintos.Add(new TipoMovimiento { Id = "E", Descripcion = "Egreso" });
+    Movimeintos.Add(new TipoMovimiento { Id = "I", Descripcion = "Ingreso" });
 }
 
 <h2>Create</h2>
-
 <h4>PedidoAjuste</h4>
 <hr />
 <div class="row">
@@ -13,8 +20,27 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="TipoMovimiento" class="control-label"></label>
+                <select asp-for="TipoMovimiento" asp-items="@(new SelectList(Movimeintos,"Id","Descripcion"))" class="form-control">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="TipoMovimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Id_pedido" class="control-label"></label>
-                <input asp-for="Id_pedido" class="form-control" />
+                @if (Model.Id_pedido != 0)
+                {
+                    <select asp-for="Id_pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave",Model.Id_pedido))" disabled class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="Id_pedido" asp-items="@(new SelectList(Pedidos,"Id","Clave"))" class="form-control">
+                        <option>Please select one</option>
+                    </select>
+                }
+
                 <span asp-validation-for="Id_pedido" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +61,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to order", "Details", "Pedido", new { id = Model.Id_pedido })
 </div>
 
 @section Scripts {
