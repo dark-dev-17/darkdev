@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DataAdminGold.Ecom_PedidoAjuste>
+
+@{
+    ViewData["Title"] = "Inde";
+}
+<div class="table-responsive">
+    <table class="table table-sm table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pedido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        $
+                        @if (item.Tipo == 0)
+                        {
+                            @Html.DisplayFor(modelItem => item.Total)
+                        }
+                        else
+                        {
+                            <span>-</span>@Html.DisplayFor(modelItem => item.Total)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pedido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit","PedidoAjuste", new { id=item.Id }) |
+                        @Html.ActionLink("Details", "Details","PedidoAjuste", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete","PedidoAjuste", new { id=item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -38,7 +38,30 @@ namespace Admin_gold.Controllers
                 }
             }
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Get()
+        {
+            EcomData_ = new EcomData(StringConnectio);
+            try
+            {
+                EcomData_.Connect();
+                Ecom_ProductoTipo_ = (Ecom_ProductoTipo)EcomData_.GetObject(DataModel.TipoProducto);
+                List<Ecom_ProductoTipo> result = Ecom_ProductoTipo_.Get();
+                return Ok(result);
+            }
+            catch (Ecom_Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            finally
+            {
+                if (EcomData_ != null)
+                {
+                    EcomData_.Disconnect();
+                }
+            }
+        }
         // GET: TipoProducto/Details/5
         public ActionResult Details(int id)
         {

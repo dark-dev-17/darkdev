@@ -5,38 +5,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAdminGold
 {
-    public class Ecom_Pedido
+    public class Ecom_Inversionista
     {
         #region Propiedades
         [Display(Name = "Id")]
         public int Id { get; set; }
-        [Display(Name = "Total")]
+        [Display(Name = "Nombre")]
         [Required]
-        public double Total { get; set; }
-        [Display(Name = "Fecha Compra")]
-        [DataType(DataType.Date)]
-        [Required]
-        public DateTime FechaCompra { get; set; }
-        [Display(Name = "Estatus")]
-        [Required]
-        public int Estatus { get; set; }
-        [Display(Name = "Proveedor")]
-        [Required]
-        public int Proveedor { get; set; }
-        public Ecom_Proveedor Ecom_Proveedor_ { get; private set; }
+        public string Nombre { get; set; }
         private Data_DBConnection Data_DBConnection_;
         #endregion
 
         #region Constructores
-        ~Ecom_Pedido()
+        ~Ecom_Inversionista()
         {
 
         }
-        public Ecom_Pedido()
+        public Ecom_Inversionista()
         {
 
         }
-        public Ecom_Pedido(Data_DBConnection Data_DBConnection_)
+        public Ecom_Inversionista(Data_DBConnection Data_DBConnection_)
         {
             this.Data_DBConnection_ = Data_DBConnection_;
         }
@@ -47,12 +36,9 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_inversionista");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
-                Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Nombre, "Nombre", "VARCHAR");
                 Data_DBConnection_.AddParameter(1, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -66,12 +52,9 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_inversionista");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
-                Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Nombre, "Nombre", "VARCHAR");
                 Data_DBConnection_.AddParameter(2, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -85,12 +68,9 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_inversionista");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
-                Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Nombre, "Nombre", "VARCHAR");
                 Data_DBConnection_.AddParameter(3, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -104,16 +84,12 @@ namespace DataAdminGold
         {
             try
             {
-                List<Ecom_Pedido> List = ReadDatReader(string.Format("SELECT * FROM t04_pedido where t04_pk01 = '{0}'", id));
+                List<Ecom_Inversionista> List = ReadDatReader(string.Format("SELECT * FROM t08_inversionista where t08_pk01 = '{0}'", id));
                 if (List.Count == 1)
                 {
                     List.ForEach(item => {
                         Id = item.Id;
-                        Total = item.Total;
-                        FechaCompra = item.FechaCompra;
-                        Estatus = item.Estatus;
-                        Proveedor = item.Proveedor;
-                        Ecom_Proveedor_ = item.Ecom_Proveedor_;
+                        Nombre = item.Nombre;
                     });
                     return true;
                 }
@@ -128,38 +104,31 @@ namespace DataAdminGold
                 throw ex;
             }
         }
-        public List<Ecom_Pedido> Get()
+        public List<Ecom_Inversionista> Get()
         {
-            return ReadDatReader("select * from t04_pedido");
+            return ReadDatReader("select * from t08_inversionista");
         }
-        private List<Ecom_Pedido> ReadDatReader(string Statement)
+        private List<Ecom_Inversionista> ReadDatReader(string Statement)
         {
-            List<Ecom_Pedido> List = null;
+            List<Ecom_Inversionista> List = null;
             MySqlDataReader Data = null;
             try
             {
                 Ecom_Tools.ValidDBobject(Data_DBConnection_);
                 Data = Data_DBConnection_.DoQuery(Statement);
-                List = new List<Ecom_Pedido>();
+                List = new List<Ecom_Inversionista>();
                 if (Data.HasRows)
                 {
                     while (Data.Read())
                     {
-                        List.Add(new Ecom_Pedido
+                        List.Add(new Ecom_Inversionista
                         {
                             Id = Data.IsDBNull(0) ? 0 : (int)Data.GetUInt32(0),
-                            Total = Data.IsDBNull(1) ? 0 : Data.GetDouble(1),
-                            FechaCompra = Data.IsDBNull(2) ? DateTime.Now : Data.GetDateTime(2),
-                            Estatus = Data.IsDBNull(3) ? 0 : Data.GetInt32(3),
-                            Proveedor = Data.IsDBNull(4) ? 0 : Data.GetInt32(4),
+                            Nombre = Data.IsDBNull(1) ? "" : Data.GetString(1),
                         });
 
                     }
                     Data.Close();
-                    List.ForEach(item => {
-                        item.Ecom_Proveedor_ = new Ecom_Proveedor(Data_DBConnection_);
-                        item.Ecom_Proveedor_.Get(item.Proveedor);
-                    });
                 }
                 else
                 {

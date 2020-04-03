@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataAdminGold.Ecom_Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Clave)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrecioVenta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaVenta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoProducto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ganancia)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Clave)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrecioVenta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaVenta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ecom_ProductoTipo_.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ganancia)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

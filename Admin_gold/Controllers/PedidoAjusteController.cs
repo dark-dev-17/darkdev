@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Admin_gold.Controllers
 {
-    public class PedidoNotaController : Controller
+    public class PedidoAjusteController : Controller
     {
         private readonly string StringConnectio = ConfigurationManager.AppSettings["DataBase"].ToString();
         private EcomData EcomData_;
-        private Ecom_PedidoNota Ecom_PedidoNota_;
+        private Ecom_PedidoAjuste Ecom_PedidoAjuste_;
 
 
         // GET: TipoProducto
@@ -23,8 +23,8 @@ namespace Admin_gold.Controllers
             try
             {
                 EcomData_.Connect();
-                Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.GetObject(DataModel.PedidoNota);
-                List<Ecom_PedidoNota> result = Ecom_PedidoNota_.Get();
+                Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.GetObject(DataModel.PedidoAjuste);
+                List<Ecom_PedidoAjuste> result = Ecom_PedidoAjuste_.Get();
                 return View(result);
             }
             catch (Ecom_Exception ex)
@@ -47,11 +47,11 @@ namespace Admin_gold.Controllers
             try
             {
                 EcomData_.Connect();
-                Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.GetObject(DataModel.PedidoNota);
-                bool result = Ecom_PedidoNota_.Get(id);
+                Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.GetObject(DataModel.PedidoAjuste);
+                bool result = Ecom_PedidoAjuste_.Get(id);
                 if (result)
                 {
-                    return View(Ecom_PedidoNota_);
+                    return View(Ecom_PedidoAjuste_);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace Admin_gold.Controllers
         {
             if(id != 0)
             {
-                return View(new Ecom_PedidoNota { Pedido = id });
+                return View(new Ecom_PedidoAjuste { Pedido = id });
             }
             else
             {
@@ -89,7 +89,7 @@ namespace Admin_gold.Controllers
         // POST: TipoProducto/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Ecom_PedidoNota Ecom_PedidoNota_)
+        public ActionResult Create(Ecom_PedidoAjuste Ecom_PedidoAjuste_)
         {
             //return RedirectToAction(nameof(Index));
             EcomData_ = new EcomData(StringConnectio);
@@ -97,16 +97,16 @@ namespace Admin_gold.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(Ecom_PedidoNota_);
+                    return View(Ecom_PedidoAjuste_);
                 }
                 else
                 {
                     EcomData_.Connect();
-                    Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.SetObjectConnection(Ecom_PedidoNota_, DataModel.PedidoNota);
-                    bool result = Ecom_PedidoNota_.Add();
+                    Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.SetObjectConnection(Ecom_PedidoAjuste_, DataModel.PedidoAjuste);
+                    bool result = Ecom_PedidoAjuste_.Add();
                     if (result)
                     {
-                        return RedirectToAction("Details", "Pedido", new { Id = Ecom_PedidoNota_.Pedido });
+                        return RedirectToAction("Details", "Pedido", new { Id = Ecom_PedidoAjuste_.Pedido });
                     }
                     else
                     {
@@ -117,7 +117,7 @@ namespace Admin_gold.Controllers
             catch (Ecom_Exception ex)
             {
                 ModelState.AddModelError(string.Empty, string.Format("{0}", ex.Message));
-                return View(Ecom_PedidoNota_);
+                return View(Ecom_PedidoAjuste_);
             }
             finally
             {
@@ -136,11 +136,11 @@ namespace Admin_gold.Controllers
             try
             {
                 EcomData_.Connect();
-                Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.GetObject(DataModel.PedidoNota);
-                bool result = Ecom_PedidoNota_.Get(id);
+                Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.GetObject(DataModel.PedidoAjuste);
+                bool result = Ecom_PedidoAjuste_.Get(id);
                 if (result)
                 {
-                    return View(Ecom_PedidoNota_);
+                    return View(Ecom_PedidoAjuste_);
                 }
                 else
                 {
@@ -164,23 +164,23 @@ namespace Admin_gold.Controllers
         // POST: TipoProducto/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Ecom_PedidoNota Ecom_PedidoNota_)
+        public ActionResult Edit(Ecom_PedidoAjuste Ecom_PedidoAjuste_)
         {
             EcomData_ = new EcomData(StringConnectio);
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(Ecom_PedidoNota_);
+                    return View(Ecom_PedidoAjuste_);
                 }
                 else
                 {
                     EcomData_.Connect();
-                    Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.SetObjectConnection(Ecom_PedidoNota_, DataModel.PedidoNota);
-                    bool result = Ecom_PedidoNota_.Update();
+                    Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.SetObjectConnection(Ecom_PedidoAjuste_, DataModel.PedidoAjuste);
+                    bool result = Ecom_PedidoAjuste_.Update();
                     if (result)
                     {
-                        return RedirectToAction("Details", "Pedido", new { Id = Ecom_PedidoNota_.Pedido });
+                        return RedirectToAction("Details", "Pedido", new { Id = Ecom_PedidoAjuste_.Pedido });
                     }
                     else
                     {
@@ -191,7 +191,7 @@ namespace Admin_gold.Controllers
             catch (Ecom_Exception ex)
             {
                 ModelState.AddModelError(string.Empty, string.Format("{0}", ex.Message));
-                return View(Ecom_PedidoNota_);
+                return View(Ecom_PedidoAjuste_);
             }
             finally
             {
@@ -209,11 +209,11 @@ namespace Admin_gold.Controllers
             try
             {
                 EcomData_.Connect();
-                Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.GetObject(DataModel.PedidoNota);
-                bool result = Ecom_PedidoNota_.Get(id);
+                Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.GetObject(DataModel.PedidoAjuste);
+                bool result = Ecom_PedidoAjuste_.Get(id);
                 if (result)
                 {
-                    return View(Ecom_PedidoNota_);
+                    return View(Ecom_PedidoAjuste_);
                 }
                 else
                 {
@@ -243,11 +243,11 @@ namespace Admin_gold.Controllers
             try
             {
                 EcomData_.Connect();
-                Ecom_PedidoNota_ = (Ecom_PedidoNota)EcomData_.GetObject(DataModel.PedidoNota);
-                Ecom_PedidoNota_.Id = id;
-                bool result2 = Ecom_PedidoNota_.Get(id);
-                int perdido = Ecom_PedidoNota_.Pedido;
-                bool result = Ecom_PedidoNota_.Delete();
+                Ecom_PedidoAjuste_ = (Ecom_PedidoAjuste)EcomData_.GetObject(DataModel.PedidoAjuste);
+                Ecom_PedidoAjuste_.Id = id;
+                bool result2 = Ecom_PedidoAjuste_.Get(id);
+                int perdido = Ecom_PedidoAjuste_.Pedido;
+                bool result = Ecom_PedidoAjuste_.Delete();
                 if (result)
                 {
                     return RedirectToAction("Details","Pedido", new { Id = perdido });

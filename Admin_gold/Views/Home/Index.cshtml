@@ -1,5 +1,86 @@
-﻿@{
+﻿@model DataAdminGold.Ecom_venta
+@{
     ViewData["Title"] = "Home Page";
 }
 
-    <h1>Home</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Pedidos</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a asp-action="Create" class="btn btn-sm btn-outline-secondary">Create New</a>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <form asp-action="Index">
+            <input type="date" name="Fecha1" value="@Model.Incio" class="form-control form-control-sm" />
+            <input type="date" name="Fecha2" value="@Model.Final" class="form-control form-control-sm" />
+            <input type="submit" value="procesar" class="btn btn-sm btn-primary" />
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table table-sm table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td style="width: 80px;">Total</td>
+                    <td style="width: 130px;">Cliente</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Ecom_Abono_)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ecom_Cliente_.Nombre)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>@Model.Ecom_Abono_.Sum(item => item.Total)</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-sm table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td style="width: 80px;">Total</td>
+                    <td style="width: 130px;">Cliente</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Ecom_Inversiones_)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalInversion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ecom_Inversionista_.Nombre)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>@Model.Ecom_Inversiones_.Sum(item => item.TotalInversion)</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

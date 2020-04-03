@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAdminGold
 {
-    public class Ecom_Pedido
+    public class Ecom_PedidoAjuste
     {
         #region Propiedades
         [Display(Name = "Id")]
@@ -13,30 +13,28 @@ namespace DataAdminGold
         [Display(Name = "Total")]
         [Required]
         public double Total { get; set; }
-        [Display(Name = "Fecha Compra")]
-        [DataType(DataType.Date)]
+        [Display(Name = "Tipo")]
         [Required]
-        public DateTime FechaCompra { get; set; }
-        [Display(Name = "Estatus")]
+        public int Tipo { get; set; }
+        [Display(Name = "Pedido")]
         [Required]
-        public int Estatus { get; set; }
-        [Display(Name = "Proveedor")]
-        [Required]
-        public int Proveedor { get; set; }
-        public Ecom_Proveedor Ecom_Proveedor_ { get; private set; }
+        public int Pedido { get; set; }
+        [Display(Name = "Descripcion")]
+        public string Descripcion { get; set; }
+
         private Data_DBConnection Data_DBConnection_;
         #endregion
 
         #region Constructores
-        ~Ecom_Pedido()
+        ~Ecom_PedidoAjuste()
         {
 
         }
-        public Ecom_Pedido()
+        public Ecom_PedidoAjuste()
         {
 
         }
-        public Ecom_Pedido(Data_DBConnection Data_DBConnection_)
+        public Ecom_PedidoAjuste(Data_DBConnection Data_DBConnection_)
         {
             this.Data_DBConnection_ = Data_DBConnection_;
         }
@@ -47,12 +45,12 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_PedidoAjuste");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
                 Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Tipo, "Tipo", "INT");
+                Data_DBConnection_.AddParameter(Pedido, "Pedido", "INT");
+                Data_DBConnection_.AddParameter(Descripcion, "Descripcion", "VARCHAR");
                 Data_DBConnection_.AddParameter(1, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -66,12 +64,12 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_PedidoAjuste");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
                 Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Tipo, "Tipo", "INT");
+                Data_DBConnection_.AddParameter(Pedido, "Pedido", "INT");
+                Data_DBConnection_.AddParameter(Descripcion, "Descripcion", "VARCHAR");
                 Data_DBConnection_.AddParameter(2, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -85,12 +83,12 @@ namespace DataAdminGold
         {
             try
             {
-                Data_DBConnection_.StartProcedure("SP_Pedido");
+                Data_DBConnection_.StartProcedure("SP_PedidoAjuste");
                 Data_DBConnection_.AddParameter(Id, "Id", "INT");
                 Data_DBConnection_.AddParameter(Total, "Total", "DOUBLE");
-                Data_DBConnection_.AddParameter(FechaCompra, "FechaCompra", "DATETIME");
-                Data_DBConnection_.AddParameter(Estatus, "Estatus", "INT");
-                Data_DBConnection_.AddParameter(Proveedor, "Proveedor", "INT");
+                Data_DBConnection_.AddParameter(Tipo, "Tipo", "INT");
+                Data_DBConnection_.AddParameter(Pedido, "Pedido", "INT");
+                Data_DBConnection_.AddParameter(Descripcion, "Descripcion", "VARCHAR");
                 Data_DBConnection_.AddParameter(3, "ModeProcedure", "INT");
                 int result = Data_DBConnection_.ExecProcedure();
                 return result == 0 ? true : false;
@@ -104,22 +102,21 @@ namespace DataAdminGold
         {
             try
             {
-                List<Ecom_Pedido> List = ReadDatReader(string.Format("SELECT * FROM t04_pedido where t04_pk01 = '{0}'", id));
+                List<Ecom_PedidoAjuste> List = ReadDatReader(string.Format("SELECT * FROM t06_pedidoajustes where t06_pk01 = '{0}'", id));
                 if (List.Count == 1)
                 {
                     List.ForEach(item => {
                         Id = item.Id;
                         Total = item.Total;
-                        FechaCompra = item.FechaCompra;
-                        Estatus = item.Estatus;
-                        Proveedor = item.Proveedor;
-                        Ecom_Proveedor_ = item.Ecom_Proveedor_;
+                        Tipo = item.Tipo;
+                        Pedido = item.Pedido;
+                        Descripcion = item.Descripcion;
                     });
                     return true;
                 }
                 else
                 {
-                    Data_DBConnection_.Message = string.Format("No se ha podido encontrar el tipo de producto seleccionado");
+                    Data_DBConnection_.Message = string.Format("No se ha podido encontrar el registro seleccionado");
                     return false;
                 }
             }
@@ -128,38 +125,38 @@ namespace DataAdminGold
                 throw ex;
             }
         }
-        public List<Ecom_Pedido> Get()
+        public List<Ecom_PedidoAjuste> Get()
         {
-            return ReadDatReader("select * from t04_pedido");
+            return ReadDatReader("select * from t06_pedidoajustes");
         }
-        private List<Ecom_Pedido> ReadDatReader(string Statement)
+        public List<Ecom_PedidoAjuste> GetByPedido(int idPEdido)
         {
-            List<Ecom_Pedido> List = null;
+            return ReadDatReader(string.Format("select * from t06_pedidoajustes where t04_pk01 = {0}", idPEdido));
+        }
+        private List<Ecom_PedidoAjuste> ReadDatReader(string Statement)
+        {
+            List<Ecom_PedidoAjuste> List = null;
             MySqlDataReader Data = null;
             try
             {
                 Ecom_Tools.ValidDBobject(Data_DBConnection_);
                 Data = Data_DBConnection_.DoQuery(Statement);
-                List = new List<Ecom_Pedido>();
+                List = new List<Ecom_PedidoAjuste>();
                 if (Data.HasRows)
                 {
                     while (Data.Read())
                     {
-                        List.Add(new Ecom_Pedido
+                        List.Add(new Ecom_PedidoAjuste
                         {
                             Id = Data.IsDBNull(0) ? 0 : (int)Data.GetUInt32(0),
                             Total = Data.IsDBNull(1) ? 0 : Data.GetDouble(1),
-                            FechaCompra = Data.IsDBNull(2) ? DateTime.Now : Data.GetDateTime(2),
-                            Estatus = Data.IsDBNull(3) ? 0 : Data.GetInt32(3),
-                            Proveedor = Data.IsDBNull(4) ? 0 : Data.GetInt32(4),
+                            Tipo = Data.IsDBNull(2) ? 0 : Data.GetInt32(2),
+                            Pedido = Data.IsDBNull(3) ? 0 : Data.GetInt32(3),
+                            Descripcion = Data.IsDBNull(4) ? "" : Data.GetString(4)
                         });
 
                     }
                     Data.Close();
-                    List.ForEach(item => {
-                        item.Ecom_Proveedor_ = new Ecom_Proveedor(Data_DBConnection_);
-                        item.Ecom_Proveedor_.Get(item.Proveedor);
-                    });
                 }
                 else
                 {
@@ -184,6 +181,5 @@ namespace DataAdminGold
             this.Data_DBConnection_ = Data_DBConnection_;
         }
         #endregion
-
     }
 }

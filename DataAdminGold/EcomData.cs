@@ -73,6 +73,36 @@ namespace DataAdminGold
                 objeto.SetConnection(Data_DBConnection_);
                 return objeto;
             }
+            else if (objectSource == DataModel.PedidoAjuste)
+            {
+                Ecom_PedidoAjuste objeto = (Ecom_PedidoAjuste)Modelo;
+                objeto.SetConnection(Data_DBConnection_);
+                return objeto;
+            }
+            else if (objectSource == DataModel.Producto)
+            {
+                Ecom_Producto objeto = (Ecom_Producto)Modelo;
+                objeto.SetConnection(Data_DBConnection_);
+                return objeto;
+            }
+            else if (objectSource == DataModel.Inversionista)
+            {
+                Ecom_Inversionista objeto = (Ecom_Inversionista)Modelo;
+                objeto.SetConnection(Data_DBConnection_);
+                return objeto;
+            }
+            else if (objectSource == DataModel.Inversioniones)
+            {
+                Ecom_Inversiones objeto = (Ecom_Inversiones)Modelo;
+                objeto.SetConnection(Data_DBConnection_);
+                return objeto;
+            }
+            else if (objectSource == DataModel.Abono)
+            {
+                Ecom_Abono objeto = (Ecom_Abono)Modelo;
+                objeto.SetConnection(Data_DBConnection_);
+                return objeto;
+            }
             else
             {
                 throw new Ecom_Exception(string.Format("Objeto no valido"));
@@ -99,6 +129,26 @@ namespace DataAdminGold
             else if (objectSource == DataModel.PedidoNota)
             {
                 return new Ecom_PedidoNota(Data_DBConnection_);
+            }
+            else if (objectSource == DataModel.PedidoAjuste)
+            {
+                return new Ecom_PedidoAjuste(Data_DBConnection_);
+            }
+            else if (objectSource == DataModel.Producto)
+            {
+                return new Ecom_Producto(Data_DBConnection_);
+            }
+            else if (objectSource == DataModel.Inversionista)
+            {
+                return new Ecom_Inversionista(Data_DBConnection_);
+            }
+            else if (objectSource == DataModel.Inversioniones)
+            {
+                return new Ecom_Inversiones(Data_DBConnection_);
+            }
+            else if (objectSource == DataModel.Abono)
+            {
+                return new Ecom_Abono(Data_DBConnection_);
             }
             else
             {

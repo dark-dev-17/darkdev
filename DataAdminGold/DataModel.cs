@@ -10,5 +10,9 @@ namespace DataAdminGold
         Producto =4,
         Pedido =5,
         PedidoNota =6,
+        PedidoAjuste = 7,
+        Inversionista = 8,
+        Inversioniones = 9,
+        Abono = 10,
     }
 }

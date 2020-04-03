@@ -2,45 +2,172 @@
 
 @{
     ViewData["Title"] = "Details";
-}
-<div class="container h-100">
-    <div class="row align-items-center h-100">
-        <div class="col-6 mx-auto">
-            <div class="jumbotron" style="background-color: #fff">
-                <div class="card text-center">
-                    <div class="card-header">
-                        Cliente
-                    </div>
-                    <div class="card-body">
-                        <dl class="dl-horizontal">
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Id)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.Id)
-                            </dd>
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Nombre)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.Nombre)
-                            </dd>
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Telefono)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.Telefono)
-                            </dd>
-                        </dl>
-                        <div>
-                            <a asp-action="Index" class="btn btn-sm btn-secondary">Back to List</a>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted">
+    DataAdminGold.EcomData EcomData_ = new DataAdminGold.EcomData(@System.Configuration.ConfigurationManager.AppSettings["DataBase"]);
+    EcomData_.Connect();
 
+    DataAdminGold.Ecom_Producto Ecom_Producto_ = (DataAdminGold.Ecom_Producto)EcomData_.GetObject(DataAdminGold.DataModel.Producto);
+    List<DataAdminGold.Ecom_Producto> prodcutos = Ecom_Producto_.GetByCliente(Model.Id);
+
+    DataAdminGold.Ecom_Abono Ecom_Abono_ = (DataAdminGold.Ecom_Abono)EcomData_.GetObject(DataAdminGold.DataModel.Abono);
+    List<DataAdminGold.Ecom_Abono> Abonos = Ecom_Abono_.GetCliente(Model.Id);
+
+    EcomData_.Disconnect();
+
+    double TotalProdcutos = prodcutos.Sum(item => item.PrecioVenta);
+    double TotalAbonos = Abonos.Sum(item => item.Total);
+}
+<div class="container-fluid mt-2" id="app_cuenta">
+    <div class="row">
+        <div class="col-12"><h3>Cliente</h3></div>
+        <div class="col-12 mt-3">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Nombre)</td>
+                    <td>@Html.DisplayFor(model => model.Nombre)</td>
+                    <td>@Html.DisplayNameFor(model => model.Telefono)</td>
+                    <td>@Html.DisplayFor(model => model.Telefono)</td>
+                    <td>Total cuenta</td>
+                    <td>@TotalProdcutos</td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>Total abono</td>
+                    <td>{{ TotalAbonos }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>Total restante</td>
+                    <td>{{ TotalDeuda - TotalAbonos }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Abonos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="home-tab" data-toggle="tab" href="#Notas3" role="tab" aria-controls="Notas" aria-selected="true">Productos</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade  show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Abonos</h1>
+                    </div>
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td style="width: 80px;">Total</td>
+                                <td style="width: 130px;">Fecha</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" class="form-control form-control-sm"  id="Abono_total" v-on:keyup.enter="CreateAbono()" name="name" value="" /></td>
+                                <td><input type="date" class="form-control form-control-sm" id="Abono_fecha" v-on:keyup.enter="CreateAbono()" name="name" value="" /></td>
+                                <td> </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="Abonos.length" v-for="(item, index) in Abonos">
+                                <td>{{ item.total }}</td>
+                                <td>{{ item.fecha }}</td>
+                                <td><a v-on:click="DeleteAbono(item.id,item.total)" class="btn btn-sm btn-secondary" href="#">Eliminar</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="Notas3" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h1 class="h2">Inversiones</h1>
+                            </div>
+                            <partial name="../Productos/Index" model="prodcutos" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        var app_cuenta = new Vue({
+            el: "#app_cuenta",
+            data: {
+                serverToken: {
+                    'RequestVerificationToken': document.querySelector("input[name=__RequestVerificationToken]").value
+                },
+                Abonos: [],
+                TotalAbonos: '@TotalAbonos',
+                TotalDeuda: '@TotalProdcutos',
+                IsGettingData: false
+            },
+            async mounted() {
+                await this.GetAbonos();
+                document.getElementById('Abono_fecha').value = new Date();
+            },
+            methods: {
+                DeleteAbono: async function (id, total) {
+                    var params = new URLSearchParams();
+                    params.append('id', id);
+                    await axios.post('@Url.Action("Delete","Abono")', params, { headers: this.serverToken }).then(response => {
+                        this.TotalAbonos = parseFloat(this.TotalAbonos) - parseFloat(total);
+                        this.GetAbonos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                CreateAbono: async function () {
+                    let producto = {
+                        Total: document.getElementById("Abono_total").value,
+                        Fecha: document.getElementById("Abono_fecha").value,
+                        Cliente: '@Model.Id'
+                    }
+                    await axios.post('@Url.Action("Create","Abono")', producto,{ headers: this.serverToken }).then(response => {
+                        this.GetAbonos();
+                        this.TotalAbonos = parseFloat(this.TotalAbonos) + parseFloat(document.getElementById("Abono_total").value);
+                        document.getElementById("Abono_total").value = 0
+                        document.getElementById("Abono_fecha").value = ""
+                        document.getElementById("Abono_total").focus()
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetAbonos: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("Get","Abono")',params,{ headers: this.serverToken }).then(response => {
+                        this.Abonos = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                ShowMessageErrorShort: function (text, icon) {
+                    const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 4000,
+                          timerProgressBar: true,
+                          onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+
+                        Toast.fire({
+                          icon: icon,
+                          title: text
+                        })
+                },
+                currentTime: function () {
+                    var local = new Date(this);
+                    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                    return local.toJSON().slice(0,10);
+                }
+            }
+        });
+    </script>
+}

@@ -6,57 +6,556 @@
     EcomData_.Connect();
     DataAdminGold.Ecom_PedidoNota Ecom_Proveedor_ = (DataAdminGold.Ecom_PedidoNota)EcomData_.GetObject(DataAdminGold.DataModel.PedidoNota);
     List<DataAdminGold.Ecom_PedidoNota> Notas = Ecom_Proveedor_.GetByPedido(Model.Id);
+
+    DataAdminGold.Ecom_PedidoAjuste Ecom_PedidoAjuste_ = (DataAdminGold.Ecom_PedidoAjuste)EcomData_.GetObject(DataAdminGold.DataModel.PedidoAjuste);
+    List<DataAdminGold.Ecom_PedidoAjuste> PedidoAjustes = Ecom_PedidoAjuste_.GetByPedido(Model.Id);
+
+    DataAdminGold.Ecom_ProductoTipo Ecom_ProductoTipo_ = (DataAdminGold.Ecom_ProductoTipo)EcomData_.GetObject(DataAdminGold.DataModel.TipoProducto);
+    List<DataAdminGold.Ecom_ProductoTipo> ProductoTipos = Ecom_ProductoTipo_.Get();
+
+    DataAdminGold.Ecom_Cliente Ecom_Cliente_ = (DataAdminGold.Ecom_Cliente)EcomData_.GetObject(DataAdminGold.DataModel.Cliente);
+    List<DataAdminGold.Ecom_Cliente> Clientes = Ecom_Cliente_.Get();
+
+    DataAdminGold.Ecom_Inversionista Ecom_Inversionista_ = (DataAdminGold.Ecom_Inversionista)EcomData_.GetObject(DataAdminGold.DataModel.Inversionista);
+    List<DataAdminGold.Ecom_Inversionista> Inversionistas = Ecom_Inversionista_.Get();
+
+    DataAdminGold.Ecom_Inversiones Ecom_Inversiones_ = (DataAdminGold.Ecom_Inversiones)EcomData_.GetObject(DataAdminGold.DataModel.Inversioniones);
+    List<DataAdminGold.Ecom_Inversiones> Inversiones = Ecom_Inversiones_.Get();
+
     EcomData_.Disconnect();
+
+    double TotalAjustes = PedidoAjustes.Sum(item => item.Tipo == 0 ? item.Total : item.Total*-1);
+    double TotalInversiones = Inversiones.Sum(item => item.TotalInversion);
 }
 
-<div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12"><h3>MI pedido</h3></div>
-        <div class="col-12 mt-3">
-            <table class="table table-sm table-bordered">
-                <tr>
-                    <td>@Html.DisplayNameFor(model => model.Id)</td>
-                    <td>@Html.DisplayFor(model => model.Id)</td>
-                    <td>@Html.DisplayNameFor(model => model.Total)</td>
-                    <td>@Html.DisplayFor(model => model.Total)</td>
-                    <td>@Html.DisplayNameFor(model => model.FechaCompra)</td>
-                    <td>@Html.DisplayFor(model => model.FechaCompra)</td>
-                </tr>
-                <tr>
-                    <td>@Html.DisplayNameFor(model => model.Estatus)</td>
-                    <td>@Html.DisplayFor(model => model.Estatus)</td>
-                    <td>@Html.DisplayNameFor(model => model.Proveedor)</td>
-                    <td>@Html.DisplayFor(model => model.Proveedor)</td>
-
-                </tr>
-            </table>
-            <div class="text-right">
-                <a asp-action="Index" class="btn btn-sm btn-secondary">Back to List</a>
+    <div class="container-fluid mt-2" id="app_pedido">
+        <div class="row">
+            <div class="col-12"><h3>MI pedido</h3></div>
+            <div class="col-12 mt-3">
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Id)</td>
+                        <td>@Html.DisplayFor(model => model.Id)</td>
+                        <td>@Html.DisplayNameFor(model => model.FechaCompra)</td>
+                        <td>@Html.DisplayFor(model => model.FechaCompra)</td>
+                        <td>@Html.DisplayNameFor(model => model.Total)</td>
+                        <td>@Html.DisplayFor(model => model.Total)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Estatus)</td>
+                        <td>@Html.DisplayFor(model => model.Estatus)</td>
+                        <td>@Html.DisplayNameFor(model => model.Proveedor)</td>
+                        <td>@Html.DisplayFor(model => model.Ecom_Proveedor_.Nombre)</td>
+                        <td>Total Ajustes</td>
+                        <td>@TotalAjustes</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Tota Inversiones</td>
+                        <td>{{ TotalInversiones }}</td>
+                    </tr>
+                </table>
+                <div class="text-right">
+                    <a asp-action="Index" class="btn btn-sm btn-secondary">Back to List</a>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Notas" role="tab" aria-controls="home" aria-selected="true">Notas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="Notas" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="row">
-                        <div class="col-12">
-                            <partial name="../PedidoNota/Index" model="Notas" />
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#Notas" role="tab" aria-controls="Notas" aria-selected="true">Notas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#Notas1" role="tab" aria-controls="Notas" aria-selected="true">Ajustes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#Notas3" role="tab" aria-controls="Notas" aria-selected="true">Inversiones</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="Notas" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h1 class="h2">Notas</h1>
+                                    <div class="btn-toolbar mb-2 mb-md-0">
+                                        <div class="btn-group mr-2">
+                                            @Html.ActionLink("Create New", "Create", "PedidoNota", new { Id = Model.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                            <span data-feather="calendar"></span>
+                                            This week
+                                        </button>
+                                    </div>
+                                </div>
+                                <partial name="../PedidoNota/Index" model="Notas" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Notas1" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h1 class="h2">Ajustes</h1>
+                                    <div class="btn-toolbar mb-2 mb-md-0">
+                                        <div class="btn-group mr-2">
+                                            @Html.ActionLink("Create New", "Create", "PedidoAjuste", new { Id = Model.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                            <span data-feather="calendar"></span>
+                                            This week
+                                        </button>
+                                    </div>
+                                </div>
+                                <partial name="../PedidoAjuste/Index" model="PedidoAjustes" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade  show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h1 class="h2">Productos</h1>
+                                    <div class="btn-toolbar mb-2 mb-md-0">
+                                        <div class="btn-group mr-2">
+                                            <a href="#" data-toggle="modal" v-on:click="GetProductosSinCotizar()" data-target="#ProductosSinCotizar" class="btn btn-sm btn-outline-secondary">Cotizar</a>
+                                            <a href="#" data-toggle="modal" v-on:click="GetProductosSinComprar()" data-target="#ProductosSinComprar" class="btn btn-sm btn-outline-secondary">Comprar</a>
+                                            <a href="#" data-toggle="modal" v-on:click="GetProductosSinVender()" data-target="#ventaProdcutos" class="btn btn-sm btn-outline-secondary">Vender</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-sm table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td style="width: 110px;">Clave</td>
+                                            <td style="width: 190px;">Descripcion</td>
+                                            <td style="width: 120px;">Costo Cotizacion</td>
+                                            <td style="width: 120px;">Costo Compra</td>
+                                            <td style="width: 120px;">Costo Venta</td>
+                                            <td style="width: 120px;">Ganancia</td>
+                                            <td style="width: 120px;">Tipo Producto</td>
+                                            <td style="width: 120px;">Estatus</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-light">
+                                            <td><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="Clave" v-on:keyup.enter="CreateProducto()" /></td>
+                                            <td><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="Descripcion" v-on:keyup.enter="CreateProducto()" /></td>
+                                            <td><input type="text" name="name" value="0" placeholder="Introduce" class="form-control-sm form-control" id="PrecioCotizacion" v-on:keyup.enter="CreateProducto()" /></td>
+                                            <td><input type="text" name="name" value="0" placeholder="Introduce" class="form-control-sm form-control" id="PrecioCompra" v-on:keyup.enter="CreateProducto()" /></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <select asp-items="@(new SelectList(ProductoTipos,"Id","Descripcion",null))" class="form-control-sm form-control" id="TipoProducto" v-on:keyup.enter="CreateProducto()">
+                                                    <option>Please select one</option>
+                                                </select>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr v-if="Productos.length" v-for="(item, index) in Productos">
+                                            <td><span class="editable">{{ item.clave }}</span></td>
+                                            <td>{{ item.descripcion }}</td>
+                                            <td>{{ item.precioCotizacion }}</td>
+                                            <td>{{ item.precioCompra }}</td>
+                                            <td>{{ item.precioVenta }}</td>
+                                            <td>{{ item.ganancia }}</td>
+                                            <td>{{ item.ecom_ProductoTipo_.descripcion }}</td>
+                                            <td>
+                                                <span v-if="item.estatus == 0" class="badge badge-pill badge-warning">Sin cotizar</span>
+                                                <span v-if="item.estatus == 1" class="badge badge-pill badge-warning">Sin comprar</span>
+                                                <span v-if="item.estatus == 2" class="badge badge-pill badge-warning">Sin vender</span>
+                                                <span v-if="item.estatus == 3" class="badge badge-pill badge-primary">Vendido</span>
+                                                <span v-if="item.estatus == -1" class="badge badge-pill badge-danger">Cancelado</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                                    <button type="button" v-on:click="DeleteProducto(item.id)" class="btn btn-secondary">Delete</button>
+                                                    <button type="button" v-on:click="CancelarProducto(index)" class="btn btn-secondary">Cancelar</button>
+                                                    @*<div class="btn-group  btn-group-sm" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <a class="dropdown-item" href="#" v-if="item.estatus == 0" v-on:click="">Add Cotizacion</a>
+                                                <a class="dropdown-item" href="#" v-if="item.estatus == 1" v-on:click="">Add Compra</a>
+                                                <a class="dropdown-item" href="#" v-if="item.estatus == 2" v-on:click="">Add Venta</a>
+                                                <a class="dropdown-item" href="#" v-if="item.estatus == 1 || item.estatus == 2" v-on:click="">Calcular venta</a>
+                                            </div>
+                                        </div>*@
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Notas3" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h1 class="h2">Inversiones</h1>
+                                </div>
+                                <table class="table table-sm table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td style="width: 110px;">Total</td>
+                                            <td style="width: 190px;">Descripcion</td>
+                                            <td style="width: 120px;">Inversionista</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-light">
+                                            <td><input type="number" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="inve_Total" v-on:keyup.enter="CreateInversion()" /></td>
+                                            <td><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="inve_Descripcion" v-on:keyup.enter="CreateInversion()" /></td>
+                                            <td>
+                                                <select asp-items="@(new SelectList(Inversionistas,"Id","Nombre",null))" class="form-control-sm form-control" id="inve_Inversionista" v-on:keyup.enter="CreateInversion()">
+                                                    <option value="0">Please select one</option>
+                                                </select>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr v-if="Inversiones.length" v-for="(item, index) in Inversiones">
+                                            <td><span class="editable">{{ item.totalInversion }}</span></td>
+                                            <td>{{ item.descripcion }}</td>
+                                            <td>{{ item.inversionista }}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                                    <button type="button" v-on:click="DeleteInversion(item.id)" class="btn btn-sm btn-secondary">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            </div>
+        </div>
+        <!-- Large modal -->
+        <div class="modal fade bd-example-modal-lg" id="ventaProdcutos" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Calcular venta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td style="width: 80px;">Clave</td>
+                                    <td style="width: 130px;">Descripcion</td>
+                                    <td style="width: 70px;">$ Cot</td>
+                                    <td style="width: 70px;">$ Com</td>
+                                    <td style="width: 70px;" class="bg-light">% Gan1</td>
+                                    <td style="width: 70px;" class="bg-light">$ venta1</td>
+                                    <td style="width: 70px;" class="">% Gan1</td>
+                                    <td style="width: 70px;" class="">$ venta2</td>
+                                    <td style="width: 90px;" class="bg-light">$ real</td>
+                                    <td> Cliente</td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-if="ProductosSinVender.length" v-for="(item, index) in ProductosSinVender">
+                                    <td><span class="editable">{{ item.clave }}</span></td>
+                                    <td>{{ item.descripcion }}</td>
+                                    <td>{{ item.precioCotizacion }}</td>
+                                    <td>{{ item.precioCompra }}</td>
+                                    <td class="bg-light"><input type="number" class="form-control form-control-sm" v-model="item.porcentVenta1" name="name" value="" /></td>
+                                    <td class="bg-light"> {{ (item.porcentVenta1/100) * item.precioCotizacion + item.precioCotizacion }}</td>
+                                    <td class=""> <input type="number" class="form-control form-control-sm" v-model="item.porcentVenta2" name="name" value="" /></td>
+                                    <td class=""> {{ (item.porcentVenta2/100) * item.precioCotizacion + item.precioCotizacion }}</td>
+                                    <td class="bg-light"><input type="number" class="form-control form-control-sm" v-model="item.precioVenta" name="name" value="" /></td>
+                                    <td>{{ item.ecom_ProductoTipo_.descripcion }}</td>
+                                    <td>
+                                        <select asp-items="@(new SelectList(Clientes,"Id","Nombre",null))" v-model="item.cliente" class="form-control-sm form-control" id="Cliente">
+                                        </select>
+                                    </td>
+                                    <td><a v-on:click="VenderProducto(index)" href="#">Vender</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bd-example-modal-lg" id="ProductosSinCotizar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar precio de cotizacion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td style="width: 80px;">Clave</td>
+                                    <td style="width: 130px;">Descripcion</td>
+                                    <td style="width: 70px;">$ Cotizacion</td>
+                                    <td> TipoProdcuto</td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-if="ProductosSinCotizar.length" v-for="(item, index) in ProductosSinCotizar">
+                                    <td><span class="editable">{{ item.clave }}</span></td>
+                                    <td>{{ item.descripcion }}</td>
+                                    <td><input type="number" class="form-control form-control-sm" v-model="item.precioCotizacion" name="name" value="" /></td>
+                                    <td>{{ item.ecom_ProductoTipo_.descripcion }}</td>
+                                    <td><a v-on:click="CotizarProducto(index)" href="#">Cotizar</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bd-example-modal-lg" id="ProductosSinComprar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar precio de compra</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td style="width: 80px;">Clave</td>
+                                    <td style="width: 130px;">Descripcion</td>
+                                    <td style="width: 70px;">$ Cotizacion</td>
+                                    <td style="width: 70px;">$ Compra</td>
+                                    <td> TipoProdcuto</td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-if="ProductosSinComprar.length" v-for="(item, index) in ProductosSinComprar">
+                                    <td><span class="editable">{{ item.clave }}</span></td>
+                                    <td>{{ item.descripcion }}</td>
+                                    <td>{{ item.precioCotizacion }}</td>
+                                    <td><input type="number" class="form-control form-control-sm" v-model="item.precioCompra" name="name" value="" /></td>
+                                    <td>{{ item.ecom_ProductoTipo_.descripcion }}</td>
+                                    <td><a v-on:click="ComprarProducto(index)" class="btn btn-sm btn-secondary" href="#">Comprar</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@section Scripts {
+    <script src="~/lib/editline/eip.js"></script>
+    <script>
+        var app_pedido = new Vue({
+            el: "#app_pedido",
+            data: {
+                message: "Hola",
+                serverToken: {
+                    'RequestVerificationToken': document.querySelector("input[name=__RequestVerificationToken]").value
+                },
+                Productos: [],
+                ProductosSinVender: [],
+                ProductosSinCotizar: [],
+                ProductosSinComprar: [],
+                Inversiones: [],
+                TotalInversiones: '@TotalInversiones',
+                IsGettingData: false
+            },
+            async mounted() {
+                await this.GetProductos();
+                await this.GetInversiones();
+                $('.editable').editable({
+                    onChange: function () {
+                        alert("se ha cambiado")
+                    }
+		        });
+            },
+            methods: {
+                DeleteInversion: async function (id) {
+                    var params = new URLSearchParams();
+                    params.append('id', id);
+                    await axios.post('@Url.Action("Delete","Inversiones")',params,{ headers: this.serverToken }).then(response => {
+                        this.GetInversiones();
+                        this.TotalInversiones = parseFloat(this.TotalInversiones) - parseFloat(document.getElementById("inve_Total").value)
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                CreateInversion: async function () {
+                    let producto = {
+                        TotalInversion: document.getElementById("inve_Total").value,
+                        Descripcion: document.getElementById("inve_Descripcion").value,
+                        Inversionista: document.getElementById("inve_Inversionista").value,
+                        Pedido: '@Model.Id'
+                    }
+                    await axios.post('@Url.Action("Create","Inversiones")', producto,{ headers: this.serverToken }).then(response => {
+                        this.GetInversiones();
+                        this.TotalInversiones = parseFloat(this.TotalInversiones) + parseFloat(document.getElementById("inve_Total").value)
+                        document.getElementById("inve_Descripcion").value = ""
+                        document.getElementById("inve_Inversionista").value = 0
+                        document.getElementById("inve_Total").value = 0
+                        document.getElementById("inve_Total").focus()
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetInversiones: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("Index","Inversiones")',params,{ headers: this.serverToken }).then(response => {
+                        this.Inversiones = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                }, 
+                VenderProducto: async function (id) {
+                    await axios.post('@Url.Action("Vender","Producto")', this.ProductosSinVender[id], { headers: this.serverToken }).then(response => {
+                        this.ProductosSinVender.splice(id, 1)
+                        this.GetProductos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                CotizarProducto: async function (id) {
+                    await axios.post('@Url.Action("Cotizar","Producto")', this.ProductosSinCotizar[id], { headers: this.serverToken }).then(response => {
+                        this.ProductosSinCotizar.splice(id, 1)
+                        this.GetProductos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                }, 
+                ComprarProducto: async function (id) {
+                    await axios.post('@Url.Action("Comprar","Producto")', this.ProductosSinComprar[id], { headers: this.serverToken }).then(response => {
+                        this.ProductosSinComprar.splice(id, 1)
+                        this.GetProductos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                }, 
+                DeleteProducto: async function (id) {
+                    var params = new URLSearchParams();
+                    params.append('id', id);
+                    await axios.post('@Url.Action("Delete","Producto")',params,{ headers: this.serverToken }).then(response => {
+                        this.GetProductos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                }, 
+                CancelarProducto: async function (id) {
+                    await axios.post('@Url.Action("ConcelarVenta","Producto")',this.Productos[id],{ headers: this.serverToken }).then(response => {
+                        this.GetProductos();
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetProductos: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("Index","Producto")',params,{ headers: this.serverToken }).then(response => {
+                        this.Productos = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetProductosSinVender: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("GetSinVender","Producto")',params,{ headers: this.serverToken }).then(response => {
+                        this.ProductosSinVender = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetProductosSinCotizar: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("GetSinCotizar","Producto")',params,{ headers: this.serverToken }).then(response => {
+                        this.ProductosSinCotizar = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                GetProductosSinComprar: async function () {
+                    var params = new URLSearchParams();
+                    params.append('id', '@Model.Id');
+                    await axios.post('@Url.Action("GetSinComprar","Producto")',params,{ headers: this.serverToken }).then(response => {
+                        this.ProductosSinComprar = response.data;
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                CreateProducto: async function () {
+                    let producto = {
+                        Clave: document.getElementById("Clave").value,
+                        Descripcion: document.getElementById("Descripcion").value,
+                        PrecioCotizacion: document.getElementById("PrecioCotizacion").value,
+                        PrecioCompra: document.getElementById("PrecioCompra").value,
+                        //PrecioVenta: document.getElementById("PrecioVenta").value,
+                        TipoProducto: document.getElementById("TipoProducto").value,
+                        Pedido: '@Model.Id'
+                    }
+                    await axios.post('@Url.Action("Create","Producto")', producto,{ headers: this.serverToken }).then(response => {
+                        this.GetProductos();
+                        document.getElementById("Clave").value = ""
+                        document.getElementById("Descripcion").value = ""
+                        document.getElementById("PrecioCotizacion").value = 0
+                        document.getElementById("PrecioCompra").value = 0
+                        //document.getElementById("PrecioVenta").value = 0
+                        document.getElementById("Clave").focus()
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                ShowMessageErrorShort: function (text,icon) {
+                    const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 4000,
+                          timerProgressBar: true,
+                          onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+
+                        Toast.fire({
+                          icon: icon,
+                          title: text
+                        })
+                },
+
+            }
+        });
+    </script>
+}

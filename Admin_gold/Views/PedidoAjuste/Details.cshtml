@@ -1,9 +1,8 @@
-﻿@model DataAdminGold.Ecom_PedidoNota
+﻿@model DataAdminGold.Ecom_PedidoAjuste
 
 @{
     ViewData["Title"] = "Details";
 }
-
 <div class="container h-100">
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto">
@@ -21,16 +20,28 @@
                                 @Html.DisplayFor(model => model.Id)
                             </dd>
                             <dt>
-                                @Html.DisplayNameFor(model => model.Folio)
+                                @Html.DisplayNameFor(model => model.Total)
                             </dt>
                             <dd>
-                                @Html.DisplayFor(model => model.Folio)
+                                @Html.DisplayFor(model => model.Total)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Tipo)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Tipo)
                             </dd>
                             <dt>
                                 @Html.DisplayNameFor(model => model.Pedido)
                             </dt>
                             <dd>
-                                @Html.DisplayFor(model => model.Pedido)
+                                @Html.Raw((Model.Pedido == 0 ? "Agregar al pedido" : "Quitar al pedido"))
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Descripcion)
                             </dd>
                         </dl>
                         <div>
@@ -45,4 +56,3 @@
         </div>
     </div>
 </div>
-

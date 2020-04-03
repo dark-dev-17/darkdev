@@ -52,10 +52,17 @@
                         @Html.DisplayFor(modelItem => item.FechaCompra)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Estatus)
+                        @if (item.Estatus == 0)
+                        {
+                            <span>Pendiente</span>
+                        }
+                        else
+                        {
+                            <span>Completado</span>
+                        }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Proveedor)
+                        @Html.DisplayFor(modelItem => item.Ecom_Proveedor_.Nombre)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
