@@ -81,7 +81,7 @@ namespace Admin_gold.Controllers
         // POST: TipoProducto/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Ecom_Cliente Ecom_Cliente_)
+        public ActionResult Create([FromBody]Ecom_Cliente Ecom_Cliente_)
         {
             //return RedirectToAction(nameof(Index));
             EcomData_ = new EcomData(StringConnectio);
@@ -89,7 +89,7 @@ namespace Admin_gold.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(Ecom_Cliente_);
+                    throw new Ecom_Exception("Campos no validos");
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace Admin_gold.Controllers
                     bool result = Ecom_Cliente_.Add();
                     if (result)
                     {
-                        return RedirectToAction(nameof(Index));
+                        return Ok(EcomData_.GetLastMessage());
                     }
                     else
                     {
@@ -108,8 +108,7 @@ namespace Admin_gold.Controllers
             }
             catch (Ecom_Exception ex)
             {
-                ModelState.AddModelError(string.Empty, string.Format("{0}", ex.Message));
-                return View(Ecom_Cliente_);
+                return BadRequest(ex.Message);
             }
             finally
             {
@@ -193,43 +192,10 @@ namespace Admin_gold.Controllers
                 }
             }
         }
-
-        // GET: TipoProducto/Delete/5
-        public ActionResult Delete(int id)
-        {
-            EcomData_ = new EcomData(StringConnectio);
-            try
-            {
-                EcomData_.Connect();
-                Ecom_Cliente_ = (Ecom_Cliente)EcomData_.GetObject(DataModel.Cliente);
-                bool result = Ecom_Cliente_.Get(id);
-                if (result)
-                {
-                    return View(Ecom_Cliente_);
-                }
-                else
-                {
-                    throw new Ecom_Exception(EcomData_.GetLastMessage());
-                }
-
-            }
-            catch (Ecom_Exception ex)
-            {
-                return View("../ErrorPages/Error", new { id = ex.Message });
-            }
-            finally
-            {
-                if (EcomData_ != null)
-                {
-                    EcomData_.Disconnect();
-                }
-            }
-        }
-
         // POST: TipoProducto/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
             EcomData_ = new EcomData(StringConnectio);
             try
@@ -240,7 +206,7 @@ namespace Admin_gold.Controllers
                 bool result = Ecom_Cliente_.Delete();
                 if (result)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return Ok(EcomData_.GetLastMessage());
                 }
                 else
                 {
@@ -250,7 +216,7 @@ namespace Admin_gold.Controllers
             }
             catch (Ecom_Exception ex)
             {
-                return View("../ErrorPages/Error", new { id = ex.Message });
+                return BadRequest(ex.Message);
             }
             finally
             {

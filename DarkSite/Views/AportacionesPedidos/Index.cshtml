@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DarkDev.Models.AportacionesPedidos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<table class="table">
+    <thead class="thead-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInversionista)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aporte)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPedido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreInversionista)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aporte)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "AportacionesPedidos", new { id = item.IdAportacionesPedidos }) |
+                    @Html.ActionLink("Delete", "Delete", "AportacionesPedidos", new { id = item.IdAportacionesPedidos })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

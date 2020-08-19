@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DarkDev.Models.Articulo>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<table class="table mt-3">
+    <thead class="thead-primary">
+        <tr>
+            <th style="width: 90px;">
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th style="width: 90px;">
+                @Html.DisplayNameFor(model => model.FolioNota)
+            </th>
+            <th style="width: 90px;">
+                @Html.DisplayNameFor(model => model.IdProductoTipo)
+            </th>
+            <th style="width: 40px;">
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th style="width: 60px;">
+                @Html.DisplayNameFor(model => model.PrecioCompraUnit)
+            </th>
+            <th style="width: 40px;">
+                @Html.DisplayNameFor(model => model.Porcentaje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comentarios)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FolioNota)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductoTipoNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioCompraUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Porcentaje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comentarios)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

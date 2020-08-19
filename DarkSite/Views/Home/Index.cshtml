@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Menú";
+}
+<div class="content content-fixed content-auth-alt">
+    <div class="ht-100p tx-center">
+        <div class="row justify-content-center">
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 mg-t-40 mg-md-t-0 d-flex flex-column border p-3">
+                <div class="tx-100 lh-1"><i class="icon ion-ios-boat"></i></div>
+                <h3 class="mg-b-25">Cotizaciones</h3>
+                <p class="tx-color-03 mg-b-25">Crea nuevas cotizaciones</p>
+                <h1 class="tx-rubik tx-normal mg-b-30 mg-t-auto">$Total</h1>
+                <a href="@Url.Action("Index","Pedido")" class="btn btn-primary btn-block ">Entrar</a>
+            </div><!-- col -->
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 mg-t-40 mg-sm-t-0 d-flex flex-column border p-3">
+                <div class="tx-100 lh-1"><i class="icon ion-ios-car"></i></div>
+                <h3 class="mg-b-25">Pedidos</h3>
+                <p class="tx-color-03 mg-b-25">Registra tus pedidos</p>
+                <h1 class="tx-rubik tx-normal mg-b-30 mg-t-auto">$Total</h1>
+                <a href="@Url.Action("Index","Pedido")" class="btn btn-primary btn-block ">Entrar</a>
+            </div><!-- col -->
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 d-flex flex-column border p-3">
+                <div class="tx-100 lh-1"><i class="icon ion-ios-bicycle"></i></div>
+                <h3 class="mg-b-25">Clientes</h3>
+                <p class="tx-color-03 mg-b-25">Registra o actualiza tus clientes</p>
+                <h1 class="tx-rubik tx-normal mg-b-30 mg-t-auto">Clientes</h1>
+                <button class="btn btn-primary btn-block">Entrar</button>
+            </div><!-- col -->
+        </div><!-- row -->
+    </div><!-- container -->
+</div>

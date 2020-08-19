@@ -145,7 +145,7 @@
                                     </thead>
                                     <tbody>
                                         <tr class="bg-light">
-                                            <td><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="Clave" v-on:keyup.enter="CreateProducto()" /></td>
+                                            <td><input type="text" name="name" value="11-11-11" placeholder="Introduce" class="form-control-sm form-control" id="Clave" v-on:keyup.enter="CreateProducto()" /></td>
                                             <td><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="Descripcion" v-on:keyup.enter="CreateProducto()" /></td>
                                             <td><input type="text" name="name" value="0" placeholder="Introduce" class="form-control-sm form-control" id="PrecioCotizacion" v-on:keyup.enter="CreateProducto()" /></td>
                                             <td><input type="text" name="name" value="0" placeholder="Introduce" class="form-control-sm form-control" id="PrecioCompra" v-on:keyup.enter="CreateProducto()" /></td>
@@ -165,7 +165,11 @@
                                             <td>{{ item.precioCotizacion }}</td>
                                             <td>{{ item.precioCompra }}</td>
                                             <td>{{ item.precioVenta }}</td>
-                                            <td>{{ item.ganancia }}</td>
+                                            <td>
+                                                
+                                                <span v-if="item.ganancia <= 0" class="badge badge-pill badge-warning">{{ item.ganancia }}</span>
+                                                <span v-if="item.ganancia > 0" class="badge badge-pill badge-primary">{{ item.ganancia }}</span>
+                                            </td>
                                             <td>{{ item.ecom_ProductoTipo_.descripcion }}</td>
                                             <td>
                                                 <span v-if="item.estatus == 0" class="badge badge-pill badge-warning">Sin cotizar</span>
@@ -258,7 +262,6 @@
                                     <td style="width: 80px;">Clave</td>
                                     <td style="width: 130px;">Descripcion</td>
                                     <td style="width: 70px;">$ Cot</td>
-                                    <td style="width: 70px;">$ Com</td>
                                     <td style="width: 70px;" class="bg-light">% Gan1</td>
                                     <td style="width: 70px;" class="bg-light">$ venta1</td>
                                     <td style="width: 70px;" class="">% Gan1</td>
@@ -273,7 +276,6 @@
                                     <td><span class="editable">{{ item.clave }}</span></td>
                                     <td>{{ item.descripcion }}</td>
                                     <td>{{ item.precioCotizacion }}</td>
-                                    <td>{{ item.precioCompra }}</td>
                                     <td class="bg-light"><input type="number" class="form-control form-control-sm" v-model="item.porcentVenta1" name="name" value="" /></td>
                                     <td class="bg-light"> {{ (item.porcentVenta1/100) * item.precioCotizacion + item.precioCotizacion }}</td>
                                     <td class=""> <input type="number" class="form-control form-control-sm" v-model="item.porcentVenta2" name="name" value="" /></td>
@@ -526,7 +528,7 @@
                     }
                     await axios.post('@Url.Action("Create","Producto")', producto,{ headers: this.serverToken }).then(response => {
                         this.GetProductos();
-                        document.getElementById("Clave").value = ""
+                        document.getElementById("Clave").value = "11-11-11"
                         document.getElementById("Descripcion").value = ""
                         document.getElementById("PrecioCotizacion").value = 0
                         document.getElementById("PrecioCompra").value = 0

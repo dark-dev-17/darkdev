@@ -3,55 +3,112 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Clientes</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-            <a asp-action="Create" class="btn btn-sm btn-outline-secondary">Create New</a>
+    <div id="app_cliente">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Clientes</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <a asp-action="Create" class="btn btn-sm btn-outline-secondary">Create New</a>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                    <span data-feather="calendar"></span>
+                    This week
+                </button>
+            </div>
         </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-        </button>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Telefono)
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>
+                        </th>
+                        <th><input type="text" name="name" value="" placeholder="Introduce" class="form-control-sm form-control" id="clienteNombre" v-on:keyup.enter="CreateCliente()" /></th>
+                        <th><input type="text" name="name" value="1111111111" placeholder="Introduce" class="form-control-sm form-control" id="clienteTelefono" v-on:keyup.enter="CreateCliente()" /></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<div class="table-responsive">
-    <table class="table table-sm table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Telefono)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Telefono)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
 
+@section Scripts{
+    <script>
+        var app_cliente = new Vue({
+            el: "#app_cliente",
+            data: {
+                serverToken: {
+                    'RequestVerificationToken': document.querySelector("input[name=__RequestVerificationToken]").value
+                },
+                IsGettingData: false
+            },
+            mounted() {
+                document.getElementById("clienteNombre").focus()
+            },
+            methods: {
+                CreateCliente: async function () {
+                    let producto = {
+                        Nombre: document.getElementById("clienteNombre").value,
+                        Telefono: document.getElementById("clienteTelefono").value,
+                        Id: '1'
+                    }
+                    await axios.post('@Url.Action("Create","Cliente")', producto,{ headers: this.serverToken }).then(response => {
+                        location.reload(); 
+                    }).catch(error => {
+                        this.ShowMessageErrorShort(error.response.data,'error')
+                    }).finally(() => this.IsGettingData = false)
+                },
+                ShowMessageErrorShort: function (text,icon) {
+                    const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 4000,
+                          timerProgressBar: true,
+                          onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+
+                        Toast.fire({
+                          icon: icon,
+                          title: text
+                        })
+                },
+            }
+        });
+    </script>
+}

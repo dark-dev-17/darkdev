@@ -1,0 +1,63 @@
+﻿@model DarkDev.Models.Pedido
+
+@{
+    ViewData["Title"] = "Purchase Details";
+}
+@await Component.InvokeAsync("PedidoDetalle", new { id = Model.IdPedido })
+<div data-label="@ViewData["Title"]" class="df-example demo-forms mt-3" id="">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link  @Html.Raw(ViewBag.Mode == "Notas" ? "active" : "")" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Notas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(ViewBag.Mode == "AportacionesPedidos" ? "active" : "")" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Aportes</a>
+        </li>
+    </ul>
+    <div class="tab-content bd bd-gray-300 bd-t-0 pd-20" id="myTabContent">
+        <div class="tab-pane  @Html.Raw(ViewBag.Mode == "Notas" ? "show active" : "fade") " id="home" role="tabpanel" aria-labelledby="home-tab">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark bd mb-3">
+                <a class="navbar-brand tx-bold tx-spacing--2 order-1" href="#">Notas</a>
+                <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i data-feather="menu" class="wd-20 ht-20"></i>
+                </button>
+                <div class="collapse navbar-collapse order-2" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    @Html.ActionLink("Create New", "Create", "PedidoNota", new { id = Model.IdPedido }, new { @class = "btn btn-primary" })
+                </div>
+            </nav>
+            <partial name="../PedidoNota/Index" model="ViewBag.PedidoNotas" />
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark bd mb-3">
+                <a class="navbar-brand tx-bold tx-spacing--2 order-1" href="#">Articulos</a>
+                <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i data-feather="menu" class="wd-20 ht-20"></i>
+                </button>
+                <div class="collapse navbar-collapse order-2" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                </div>
+            </nav>
+            <partial name="../Articulo/List" model="ViewBag.Articulos" />
+        </div>
+        <div class="tab-pane @Html.Raw(ViewBag.Mode == "AportacionesPedidos" ? "show active" : "fade") " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark bd mb-3">
+                <a class="navbar-brand tx-bold tx-spacing--2 order-1" href="#">Aportaciones</a>
+                <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i data-feather="menu" class="wd-20 ht-20"></i>
+                </button>
+                <div class="collapse navbar-collapse order-2" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    @Html.ActionLink("Create New", "Create", "AportacionesPedidos", new { id = Model.IdPedido }, new { @class = "btn btn-primary" })
+                </div>
+            </nav>
+            <partial name="../AportacionesPedidos/Index" model="ViewBag.AportacionesPedidos" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿@model DarkDev.Models.Articulo
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+
+<div data-label="@ViewData["Title"]" class="df-example demo-forms mt-3" id="">
+    <h3>Are you sure you want to delete this?</h3>
+        <div class="form-group row">
+            <label asp-for="Codigo" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="hidden" asp-for="IdPedidoNota" class="form-control" />
+                <input type="hidden" asp-for="IdArticulo" class="form-control" />
+                <input type="text" asp-for="Codigo" class="form-control" disabled />
+                <span asp-validation-for="Codigo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Descripcion" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="text" asp-for="Descripcion" class="form-control" disabled/>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <label asp-for="IdProductoTipo" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <select asp-for="IdProductoTipo" asp-items="ViewBag.ProductoTipos" class="form-control" disabled>
+                    <option value="0">Seleccion..</option>
+                </select>
+                <span asp-validation-for="IdProductoTipo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Cantidad" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="number" asp-for="Cantidad" class="form-control" disabled/>
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <label asp-for="PrecioCompraUnit" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="number" asp-for="PrecioCompraUnit" class="form-control" disabled/>
+                <span asp-validation-for="PrecioCompraUnit" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Porcentaje" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="number" asp-for="Porcentaje" class="form-control" disabled/>
+                <span asp-validation-for="Porcentaje" class="text-danger"></span>
+            </div>
+            <label asp-for="Comentarios" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-4">
+                <input type="text" asp-for="Comentarios" class="form-control" disabled/>
+                <span asp-validation-for="Comentarios" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mg-b-0">
+            <form asp-action="Delete">
+                <div class="col-sm-12 text-right">
+                    <a href="@Url.Action("Details","PedidoNota", new { id = Model.IdPedidoNota })" class="btn btn-sm btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                </div>
+            </form>
+        </div>
+</div>
+
+

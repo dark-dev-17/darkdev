@@ -1,0 +1,25 @@
+﻿@model DarkDev.Models.PedidoNota
+
+@{
+    ViewData["Title"] = "Details PedidoNota";
+}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bd">
+    <a class="navbar-brand tx-bold tx-spacing--2 order-1" href="#">Details PedidoNota</a>
+    <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu wd-20 ht-20"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+</nav>
+<div data-label="Details PedidoNota" class="df-example demo-forms mt-3 mb-3 " id="">
+    <div class="form-group row">
+        <label asp-for="Folio" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="Folio" class="form-control" disabled />
+            <span asp-validation-for="Folio" class="text-danger"></span>
+        </div>
+        <label asp-for="Total" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input type="text" asp-for="Total" class="form-control" disabled />
+            <span asp-validation-for="Total" class="text-danger"></span>
+        </div>
+    </div>
+</div>

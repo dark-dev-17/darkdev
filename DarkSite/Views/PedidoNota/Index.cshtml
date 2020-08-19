@@ -1,0 +1,37 @@
+﻿@model IEnumerable<DarkDev.Models.PedidoNota>
+
+@{
+    ViewData["Title"] = "Notas";
+}
+
+<table class="table">
+    <thead class="thead-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Folio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Folio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "PedidoNota", new { id = item.IdPedidoNota }) |
+                @Html.ActionLink("Details", "Details", "PedidoNota", new { id = item.IdPedidoNota }) |
+                @Html.ActionLink("Delete", "Delete", "PedidoNota", new { id = item.IdPedidoNota }) 
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

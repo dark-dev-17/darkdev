@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DarkDev.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Mis pedidos";
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bd">
+    <a class="navbar-brand tx-bold tx-spacing--2 order-1" href="#">@ViewData["Title"]</a>
+    <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i data-feather="menu" class="wd-20 ht-20"></i>
+    </button>
+    <div class="collapse navbar-collapse order-2" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            
+        </ul>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </div>
+</nav>
+<table class="table mt-3">
+    <thead class="thead-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvedorNombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCompra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPedido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvedorNombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdPedido }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdPedido, Mode = "Notas" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
